@@ -5,6 +5,10 @@ inputs:
     description: 'Your GitHub token'
     required: true
     default: None
+  repo:  # The repository to sync the status to
+    description: 'The repository to sync the status to'
+    required: true
+    default: None
 
 #outputs:
 #  random-number:
@@ -22,7 +26,7 @@ runs:
 
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 1
+        path: sync-action-status
 
     - uses: actions/setup-python@v5
       with:
@@ -31,6 +35,10 @@ runs:
     - name: List Files
       run: |
         ls -als .
+        ls -als ${{ github.workspace }}
+        ls -als .github
+        ls -als .github/workflows
+
       shell: bash
 
     #- name: Install Action Prerequisites
