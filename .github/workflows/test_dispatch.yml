@@ -1,9 +1,9 @@
-name: Build Artifacts
+name: Test Dispatch
 
 on: [push]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
