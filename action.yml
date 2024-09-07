@@ -38,6 +38,7 @@ runs:
         ls -als ${{ github.workspace }}
         ls -als .github
         ls -als .github/workflows
+        ls -als sync-action-status
 
       shell: bash
 
