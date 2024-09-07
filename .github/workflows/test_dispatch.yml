@@ -1,6 +1,8 @@
 name: Test Dispatch
 
-on: [push, workflow_dispatch]
+on: 
+  push:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -19,8 +21,4 @@ jobs:
         ORG: philipdelorenzo
         REPO: test-sync-action-status
       run: |
-        curl -H "Content-Type: application/json" \
-          -H "Authorization: token ${GITHUB_TOKEN}" \
-          -H "Accept: application/vnd.github.everest-preview+json" \
-          -d "{\"event_type\": \"${EVENT}\"}" \
-          "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
+        curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
