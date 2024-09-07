@@ -1,5 +1,6 @@
 name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
+author: "Philip De Lorenzo"
 inputs:
   gh_token:  # The GitHub token to use for access to the API
     description: 'Your GitHub token'
@@ -34,11 +35,7 @@ runs:
 
     - name: List Files
       run: |
-        ls -als .
-        ls -als ${{ github.workspace }}
-        ls -als .github
-        ls -als .github/workflows
-        ls -als sync-action-status
+        ls -als ${{ github.action_path }}
 
       shell: bash
 
