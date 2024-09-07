@@ -1,6 +1,6 @@
 name: Test Dispatch
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   test:
