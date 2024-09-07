@@ -33,12 +33,7 @@ runs:
       with:
         python-version: '3.12'
 
-    - name: List Files
+    - name: Install Action Prerequisites
       run: |
-        ls -als ${{ github.action_path }}
-
+        pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
-
-    #- name: Install Action Prerequisites
-    #  run: pip install -r ${{ github.workspace }}/requirements.txt
-    #  shell: bash
