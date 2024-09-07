@@ -17,7 +17,7 @@ jobs:
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        EVENT: repository_dispatch
+        EVENT: test_run
         ORG: philipdelorenzo
         REPO: test-sync-action-status
       run: |
