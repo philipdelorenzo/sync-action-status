@@ -1,2 +1,3 @@
 # sync-action-status
+
 A GitHub Action to follow `repository_dispatch` runs in your local repo...

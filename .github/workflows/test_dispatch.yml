@@ -1,0 +1,23 @@
+name: Test Dispatch
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Send a Dispatch to the Test Receiver
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        EVENT: test_run
+        ORG: philipdelorenzo
+        REPO: test-sync-action-status
+      run: |
+        curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
