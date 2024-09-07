@@ -21,11 +21,13 @@ runs:
         INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
 
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
 
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
 
     - name: Install Action Prerequisites
-      run: pip install -r requirements.txt
+      run: pip install -r ${{ github.workspace }}/requirements.txt
       shell: bash
