@@ -19,16 +19,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set Greeting
-      run: echo "Hello $INPUT_WHO_TO_GREET."
-      shell: bash
-      env:
-        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
-
-    - uses: actions/checkout@v4
-      with:
-        path: sync-action-status
-
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
@@ -36,4 +26,9 @@ runs:
     - name: Install Action Prerequisites
       run: |
         pip install -r ${{ github.action_path }}/requirements.txt
+      shell: bash
+
+    - name: Sync Action Status
+      run: |
+        python ${{ github.action_path }}/main.py
       shell: bash
