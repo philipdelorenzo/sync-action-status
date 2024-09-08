@@ -1,7 +1,7 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
 
 import os
-from exceptions import GHTokenNotSet
+from src.exceptions import GHTokenNotSet
 
 def check_gh_token() -> None:
     """This function checks to ensure that the GH_TOKEN environment variable is set.
