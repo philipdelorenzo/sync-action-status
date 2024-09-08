@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument('--token', type=str, required=True, help='GitHub token to use for authentication.')
-parser.add_argument('--repo', type=str, required=True, help='The source repository to sync the status from.')
+parser.add_argument('--repo', type=str, required=False, help='The source repository to sync the status from.')
 
 args = parser.parse_args()
 
