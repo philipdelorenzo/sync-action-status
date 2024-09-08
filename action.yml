@@ -29,9 +29,6 @@ runs:
       shell: bash
 
     - name: Sync Action Status
-      env:
-        GH_TOKEN: ${{ inputs.gh_token }}
-        REPO: ${{ inputs.repo }}
       run: |
-        python ${{ github.action_path }}/main.py --token $GH_TOKEN --repo $REPO
+        python ${{ github.action_path }}/main.py --token ${{ inputs.gh_token }} --repo ${{ inputs.repo }}
       shell: bash
