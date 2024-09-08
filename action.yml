@@ -28,6 +28,10 @@ runs:
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
 
+    - run: |
+        echo "${{ inputs.gh_token }}"
+      shell: bash
+
     - name: Sync Action Status
       run: |
         python ${{ github.action_path }}/sync-action-status.py --token "${{ inputs.gh_token }}" --repo "${{ inputs.repo }}"
