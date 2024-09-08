@@ -10,5 +10,4 @@ def check_gh_token() -> None:
         GHTokenNotSet: If the GH_TOKEN environment variable is not set.
     """
     if not os.environ.get('GH_TOKEN'):
-        print('GH_TOKEN not set')
-        raise GHTokenNotSet
+        raise GHTokenNotSet()
