@@ -1,7 +1,7 @@
 import os
 
 from src.checks import check_gh_token
-from src.exceptions import GHTokenNotSet
+from src.exceptions import GHTokenError
 
 
 if __name__ == '__main__':
