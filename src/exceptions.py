@@ -1,7 +1,8 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
 
+
 class GHTokenError(Exception):
-    def __init__(self, message, errors={}):            
+    def __init__(self, message, errors={}):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
 
