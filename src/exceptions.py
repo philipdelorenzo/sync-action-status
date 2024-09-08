@@ -1,7 +1,7 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
 
 class GHTokenNotSet(Exception):
-    def __init__(self, message, errors=None):            
+    def __init__(self, message=None, errors=None):            
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
 
