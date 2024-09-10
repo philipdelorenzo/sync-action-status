@@ -17,5 +17,3 @@ def check_gh_token(token: str) -> None:
     
     if not token.startswith("ghp_"):
         raise GHTokenError(message="GH_TOKEN environment variable is not a valid GitHub token.")
-    
-    pass
