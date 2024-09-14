@@ -6,6 +6,10 @@ inputs:
     description: 'Your GitHub token'
     required: true
     default: None
+  ORG:  # The organization to sync the status to
+    description: 'The organization to sync the status to'
+    required: true
+    default: None
   repo:  # The repository to sync the status to
     description: 'The repository to sync the status to'
     required: true

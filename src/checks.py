@@ -1,6 +1,7 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
+import argparse
 
-from src.exceptions import GHTokenError
+from src.exceptions import GHTokenError, RepoError
 
 
 def check_gh_token(gh_token: str) -> None:
@@ -17,3 +18,9 @@ def check_gh_token(gh_token: str) -> None:
     
     if not gh_token.startswith("ghp_"):
         raise GHTokenError(message="GH_TOKEN environment variable is not a valid GitHub token.")
+
+
+def prerequisites(args: argparse.ArgumentParser.parse_args) -> None:
+    """This function checks to ensure that all prerequisites are met before running the script."""
+    if (not args.repo) or (args.repo == ""):
+        raise RepoError("The --repo argument is required (this is the repository that houses the receiver action).")

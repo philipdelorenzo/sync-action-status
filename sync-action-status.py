@@ -1,7 +1,7 @@
 import os
 import argparse
 
-from src.checks import check_gh_token
+from src.checks import check_gh_token, prerequisites
 from src.exceptions import GHTokenError
 
 from src.gh import auth, github, get_repos
@@ -21,9 +21,11 @@ args = parser.parse_args()
 # GH_TOKEN
 _gh_token = os.getenv('GH_TOKEN') # Let's set this as a variable so we don't have to pass it in in clear text
 
+
 if __name__ == '__main__':
     # Let's check to ensure that our token is set
-    check_gh_token(gh_token=_gh_token)
+    prerequisites(args=args) # Check the prerequisites, ensure we have what we need to proceed
+    check_gh_token(gh_token=_gh_token) # Check the GitHub token
 
     # Let's get our auth setup for the GitHub API
     auth = auth(gh_token=_gh_token)
