@@ -26,7 +26,7 @@ if __name__ == '__main__':
     check_gh_token(gh_token=_gh_token)
 
     # Let's get our auth setup for the GitHub API
-    auth = auth(token=args.token)
+    auth = auth(gh_token=_gh_token)
 
     conn = github(auth=auth) # Connect to the GitHub API
 

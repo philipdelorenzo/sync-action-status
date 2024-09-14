@@ -5,8 +5,8 @@ from github import Github
 from github import Auth
 
 # using an access token
-def auth(token: str) -> Auth.Token:
-    return Auth.Token(token)
+def auth(gh_token: str) -> Auth.Token:
+    return Auth.Token(gh_token)
 
 # Public Web Github
 def github(auth: Auth.Token) -> Github:
