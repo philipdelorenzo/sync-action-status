@@ -41,6 +41,6 @@ runs:
         GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
-        python ${{ github.action_path }}/sync-action-status.py --token "${{ inputs.gh_token }}" --repo "${{ inputs.repo }}"
+        python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}"
         echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Sync Action Status Complete"
       shell: bash
