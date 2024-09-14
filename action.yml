@@ -2,13 +2,17 @@ name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
 author: "Philip De Lorenzo"
 inputs:
+  :  # Whether the repository is an organization
+    description: 'Whether the repository is an organization'
+    required: true
+    default: "false"
   gh_token:  # The GitHub token to use for access to the API
     description: 'Your GitHub token'
     required: true
     default: None
-  ORG:  # The organization to sync the status to
+  org:  # The organization to sync the status to
     description: 'The organization to sync the status to'
-    required: true
+    required: false
     default: None
   repo:  # The repository to sync the status to
     description: 'The repository to sync the status to'
@@ -18,6 +22,10 @@ inputs:
     description: 'The interval to check for the status'
     required: false
     default: "30" # The is the interval to check for the status in seconds
+  gh_actor:  # The actor to use for the status
+    description: 'The github actor to use for the status'
+    required: true
+    default: None
 
 #outputs:
 #  random-number:
@@ -43,8 +51,9 @@ runs:
     - name: Sync Action Status
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
+        GH_ACTOR: ${{ inputs.gh_actor }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
-        python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}"
+        python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org "${{ inputs.is_org }}" --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
         echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Sync Action Status Complete"
       shell: bash

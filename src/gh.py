@@ -1,4 +1,5 @@
 import os
+import argparse
 from github import Github
 
 # Authentication is defined via github.Auth
@@ -16,13 +17,20 @@ def github(auth: Auth.Token) -> Github:
 #g = Github(base_url="https://{hostname}/api/v3", auth=auth)
 
 # Then play with your Github objects:
-def get_repos(conn: Github) -> list:
+def get_repos(api: Github) -> list:
     repos = []
-    for repo in conn.get_user().get_repos():
+    for repo in api.get_user().get_repos():
         repos.append(repo)
     
     return repos
 
+def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
+    if args.is_org:
+        return f"https://github.com/orgs/{args.org}/{args.repo}"
+    else:
+        return f"https://github.com/{args.gh_actor}/{args.repo}"
+
+
 # To close connections after use
-def close(conn: Github) -> None:
-    conn.close()
+def close(api: Github) -> None:
+    api.close()

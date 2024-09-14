@@ -16,3 +16,19 @@ class RepoError(Exception):
 
         # Now for your custom code...
         self.errors = errors
+
+class OrgError(Exception):
+    def __init__(self, message, errors={}):
+        # Call the base class constructor
+        super().__init__(message)
+
+        # Now for your custom code...
+        self.errors = errors
+
+class GithubActorError(Exception):
+    def __init__(self, message, errors={}):
+        # Call the base class constructor
+        super().__init__(message)
+
+        # Now for your custom code...
+        self.errors = errors

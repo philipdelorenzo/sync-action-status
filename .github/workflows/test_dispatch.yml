@@ -24,6 +24,8 @@ jobs:
 
     - uses: philipdelorenzo/sync-action-status@init
       with:
+        is_org: false
         gh_token: ${{ secrets.GH_TOKEN }}
+        gh_actor: ${{ github.actor }}
         org: philipdelorenzo
-        repo: philipdelorenzo/test-sync-action-status
+        repo: test-sync-action-status
