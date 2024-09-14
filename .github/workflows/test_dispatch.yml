@@ -17,7 +17,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         EVENT_TYPE: test_run
-        ORG: philipdelorenzo
+        ORG: philipdelorenzo # Replace with your org/user
         REPO: test-sync-action-status
       run: |
         curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
@@ -27,5 +27,5 @@ jobs:
         is_org: false
         gh_token: ${{ secrets.GH_TOKEN }}
         gh_actor: ${{ github.actor }}
-        org: philipdelorenzo
+        org: ""
         repo: test-sync-action-status

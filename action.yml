@@ -2,7 +2,7 @@ name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
 author: "Philip De Lorenzo"
 inputs:
-  :  # Whether the repository is an organization
+  is_org:  # Whether the repository is an organization
     description: 'Whether the repository is an organization'
     required: true
     default: "false"
