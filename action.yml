@@ -10,6 +10,10 @@ inputs:
     description: 'The repository to sync the status to'
     required: true
     default: None
+  interval:  # The interval to check for the status
+    description: 'The interval to check for the status'
+    required: false
+    default: "30" # The is the interval to check for the status in seconds
 
 #outputs:
 #  random-number:
@@ -33,6 +37,8 @@ runs:
       shell: bash
 
     - name: Sync Action Status
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         python ${{ github.action_path }}/sync-action-status.py --token "${{ inputs.gh_token }}" --repo "${{ inputs.repo }}"
