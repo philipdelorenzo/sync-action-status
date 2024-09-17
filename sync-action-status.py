@@ -17,13 +17,10 @@ parser.add_argument('--interval', type=str, required=False, help='The interval t
 parser.add_argument('--repo', dest='repo', type=str, required=True, help='The source repository to sync the status from.')
 
 # If is_org is set to True, then we want to require the org argument
-if parser.parse_args().is_org == "true":
+if parser.parse_args().is_org:
     parser.add_argument('--org', dest='org', type=str, required=True, help='The source repository to sync the status from.')
 
 args = parser.parse_args()
-
-# Let's convert the JSON true/false to Python True/False
-args.is_org = True if args.is_org == "true" else False
 
 ### Environment Variables ###
 # GH_TOKEN
