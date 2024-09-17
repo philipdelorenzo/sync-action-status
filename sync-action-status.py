@@ -19,6 +19,8 @@ parser.add_argument('--repo', dest='repo', type=str, required=True, help='The so
 # If is_org is set to True, then we want to require the org argument
 if parser.parse_args().is_org:
     parser.add_argument('--org', dest='org', type=str, required=True, help='The source repository to sync the status from.')
+else:
+    gh_actor = os.environ.get('GH_ACTOR') # If is_org is false, then we want to use the actor as the org
 
 args = parser.parse_args()
 
@@ -31,8 +33,13 @@ if __name__ == '__main__':
     # Let's check to ensure that our token is set
     prerequisites(args=args) # Check the prerequisites, ensure we have what we need to proceed
     check_gh_token(gh_token=_gh_token) # Check the GitHub token
+    
     # Let's get the repository dispatch org/repo
-    repo_dispatch = get_repository_dispatch(org=args.org, repo=args.repo)
+    # If the is_org flag is set to True, then we want to use the org argument
+    if args.is_org:
+        repo_dispatch = get_repository_dispatch(org=args.org, repo=args.repo)
+    else:
+        repo_dispatch = get_repository_dispatch(org=gh_actor, repo=args.repo)
 
     if args.is_org:
         print(f"Organization: {args.org}")
