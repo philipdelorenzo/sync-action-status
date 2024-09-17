@@ -28,7 +28,7 @@ def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
     if args.is_org:
         return f"https://github.com/orgs/{args.org}/{args.repo}"
     else:
-        return f"https://github.com/{args.gh_actor}/{args.repo}"
+        return f"https://github.com/{os.environ.get("GH_ACTOR")}/{args.repo}"
 
 
 # To close connections after use

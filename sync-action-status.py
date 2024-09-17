@@ -36,10 +36,7 @@ if __name__ == '__main__':
     
     # Let's get the repository dispatch org/repo
     # If the is_org flag is set to True, then we want to use the org argument
-    if args.is_org:
-        repo_dispatch = get_repository_dispatch(org=args.org, repo=args.repo)
-    else:
-        repo_dispatch = get_repository_dispatch(org=gh_actor, repo=args.repo)
+    repo_dispatch = get_repository_dispatch(args=args)
 
     if args.is_org:
         print(f"Organization: {args.org}")
