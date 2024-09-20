@@ -1,54 +1,27 @@
+"""This python script will return the deployment pipelines, and ids for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments
+
+# Author: @philipdelorenzo-manscaped<phil.delorenzo@manscaped.com>
+"""
 import os
-import sys
 import json
+import sys
 import yaml
 import time
 import argparse
 import subprocess # We will use subprocess to run the gh command to get the deployment pipelines
-
-from github import Github
-
-# Authentication is defined via github.Auth
-from github import Auth
 
 from icecream import ic # We will use icecream to print out the job information
 from datetime import datetime, timezone, UTC
 
 BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
 WORKDIR = os.environ.get("WORKDIR") # Get the workflows directory
+config = json.load(open(os.path.join(BASE, "config.json"))) # Load the config file
 
-# using an access token
-def auth(gh_token: str) -> Auth.Token:
-    return Auth.Token(gh_token)
+# Let's get the deployment workflows information from the config
+deployment_data = config["deployment_data"]
 
-# Public Web Github
-def github(auth: Auth.Token) -> Github:
-    return Github(auth=auth)
-
-# Github Enterprise with custom hostname
-#g = Github(base_url="https://{hostname}/api/v3", auth=auth)
-
-# Then play with your Github objects:
-def get_repos(api: Github) -> list:
-    repos = []
-    for repo in api.get_user().get_repos():
-        repos.append(repo)
-    
-    return repos
-
-
-def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
-    if args.is_org:
-        return f"https://github.com/orgs/{args.org}/{args.repo}"
-    else:
-        return f"https://github.com/{os.environ.get("GH_ACTOR")}/{args.repo}"
-
-
-def get_workflow_data(repo: str) -> list[dict]:
+def get_workflow_data() -> list[dict]:
     """This function will return the deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments.
-
-    Args:
-        repo (str): The repository to get the workflow data from.
 
     Returns:
         lists: The deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deploy
@@ -69,7 +42,7 @@ def get_workflow_data(repo: str) -> list[dict]:
             "workflow",
             "list",
             "--repo",
-            repo,
+            deployment_data["url"],
             '--json=name,id,path,state',
         ]
 
@@ -229,8 +202,3 @@ def follow_workflow_job(workflow_job_id: int, interval: str) -> None:
     if result.returncode != 0:
         print(f"Error following the logs of the workflow job {workflow_job_id}.")
         sys.exit(5)
-
-
-# To close connections after use
-def close(api: Github) -> None:
-    api.close()
