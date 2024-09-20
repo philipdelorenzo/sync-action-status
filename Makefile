@@ -5,10 +5,7 @@
 
 default: help
 
-#gcp_project = ""
-#docker_image_name = "gcr.io/${gcp_project}/${IMAGE_NAME}"
-
-.PHONY: install import_key fingerprint check create_new_key_pair
+.PHONY: install
 
 install: ##@repo Installs needed prerequisites and software to develop in the SRE space
 	$(info ********** Installing SRE Repo Prerequisites **********)
