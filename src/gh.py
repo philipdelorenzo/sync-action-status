@@ -97,7 +97,7 @@ def get_workflow_id(_name: str) -> int:
     return id
 
 
-def get_event_type_list_for_workflows(event_triggers_for_workflows: dict = {}) -> dict[str, list[str]]:
+def get_event_type_list_for_workflows(repo: str, event_triggers_for_workflows: dict = {}) -> dict[str, list[str]]:
     """This function will return the event triggers for the workflows.
 
     This function iterates through all of the github workflows in the repository
@@ -106,7 +106,7 @@ def get_event_type_list_for_workflows(event_triggers_for_workflows: dict = {}) -
     Returns:
         dict[str, list[str]]: The event triggers for the workflows
     """
-    workflow_data = get_workflow_data() # Let's get a list of the workflows in the repos
+    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
 
     for workflow in workflow_data:
         # Based on the workflow information - Let's get MORE data from the actual workflow definition file
@@ -123,10 +123,11 @@ def get_event_type_list_for_workflows(event_triggers_for_workflows: dict = {}) -
     return event_triggers_for_workflows
 
 
-def current_running_job_list(_name: str) -> list[dict]:
+def current_running_job_list(repo: str, _name: str) -> list[dict]:
     """Get a list of current running jobs for the workflow id passed in as an argument.
 
     Args:
+        repo (str): The repository to get the current running jobs for.
         workflow_name (str): The workflow name to get the current running jobs for.
 
     Returns:
@@ -143,9 +144,9 @@ def current_running_job_list(_name: str) -> list[dict]:
             "--workflow",
             _name,
             "--repo",
-            deployment_data["url"],
+            repo,
             f"--status=in_progress",
-            "--json=databaseId,conclusion,createdAt,number,status,updatedAt,url,headBranch,headSha,name"
+            "--json=databaseId,conclusion,createdAt,number,status,updatedAt,url,headBranch,headSha,name,displayTitle"
         ]
 
         r = json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())

@@ -99,7 +99,7 @@ if __name__ == "__main__":
         #repos = get_repos(api=api)
 
         workflow_data = get_workflow_data(repo=repo_dispatch) # Let's get a list of the workflows in the repos
-        event_type_data = get_event_type_list_for_workflows()
+        event_type_data = get_event_type_list_for_workflows(repo=repo_dispatch) # Let's get a list of the event types for the workflows
         filtered_events = {k: v for k, v in event_type_data.items() if args.eventType in v}
 
         if len(filtered_events) > 1:
