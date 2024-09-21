@@ -110,7 +110,9 @@ def get_event_type_list_for_workflows(repo: str, event_triggers_for_workflows: d
 
     for workflow in workflow_data:
         # Based on the workflow information - Let's get MORE data from the actual workflow definition file
+        print(f"Workdir --> {WORKDIR}")
         _ymlfile = os.path.join(WORKDIR, workflow["path"])
+
         with open(_ymlfile, "r") as file:
             _data = yaml.safe_load(file)
 
