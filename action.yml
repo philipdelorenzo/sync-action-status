@@ -51,11 +51,16 @@ runs:
     - name: Sync Action Status
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
-        GH_ACTOR: ${{ inputs.gh_actor }}
-        WORKDIR: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
+        #GH_ACTOR: ${{ inputs.gh_actor }}
+        #WORKDIR: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
+        if [[ "${{ inputs.is_org }}" == "true" ]]; then
+          export WORKDIR="${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}"
+        else
+          export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
+        fi
         echo "$WORKDIR"
         ls -las $WORKDIR
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
