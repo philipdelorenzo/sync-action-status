@@ -63,16 +63,18 @@ runs:
         echo "repo_name=$(echo "${{ inputs.repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
       shell: bash
 
-    - uses: actions/checkout@v4
-      if: ${{ inputs.is_org }} == 'true'
+    - name: Checkout Repository (Org)
+      uses: actions/checkout@v4
+      if: inputs.is_org == 'true'
       with:
         repository: ${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
         path: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
         fetch-depth: 0 # Fetch all history for all tags and branches
         token: ${{ inputs.gh-token }}
 
-    - uses: actions/checkout@v4
-      if: ${{ inputs.is_org }} == 'false'
+    - name: Checkout Repository (User)
+      uses: actions/checkout@v4
+      if: inputs.is_org == 'false'
       with:
         repository: ${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}
         path: ${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}
