@@ -37,11 +37,22 @@ def get_repos(api: Github) -> list:
     return repos
 
 
-def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
+def get_repository_dispatch(gh_actor: str, args: argparse.ArgumentParser.parse_args) -> str:
+    """This function will return the repository dispatch URL for the repository passed in as an argument.
+
+    Args:
+        gh_actor (str): The GitHub actor to get the repository dispatch URL for.
+        args (argparse.ArgumentParser.parse_args): The arguments passed in as an argument.
+
+    Returns:
+        str: The repository dispatch URL for the repository passed in as an argument.
+    """
     if args.is_org:
-        return f"https://github.com/orgs/{args.org}/{args.repo}"
+        url = f"https://github.com/orgs/{args.org}/{args.repo}"
     else:
-        return f"https://github.com/{os.environ.get("GH_ACTOR")}/{args.repo}"
+        url = f"https://github.com/{gh_actor}/{args.repo}"
+
+    return url
 
 
 def get_workflow_data(repo: str) -> list[dict]:
