@@ -56,6 +56,8 @@ runs:
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
+        echo "$WORKDIR"
+        ls -las $WORKDIR
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
         else
