@@ -51,22 +51,18 @@ runs:
     - name: Sync Action Status
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
-        #GH_ACTOR: ${{ inputs.gh_actor }}
-        #WORKDIR: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
+        GH_ACTOR: ${{ inputs.gh_actor }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           export WORKDIR="${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}"
-        else
-          export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
-        fi
-
-        if [[ "${{ inputs.is_org }}" == "true" ]]; then
           python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
         else
+          export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
           python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}"
         fi
+
         #echo "::endgroup::"
         echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Sync Action Status Complete"
       shell: bash

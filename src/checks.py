@@ -30,6 +30,6 @@ def prerequisites(args: argparse.ArgumentParser.parse_args) -> None:
         if (not args.org) or (args.org == ""):
             raise RepoError("The --org argument is required if this is an organization (this is the organization that houses the receiver action).")
 
-    if os.getenv('GH_ACTOR') is None or os.getenv('GH_ACTOR') == "":
+    if (os.getenv('GH_ACTOR') is None) or (os.getenv('GH_ACTOR') == ""):
         raise GithubActorError("Cannot retrieve the Github Actor - This is needed for the action to run.")
     
