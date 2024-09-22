@@ -70,7 +70,7 @@ runs:
         repository: ${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
         path: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
         fetch-depth: 0 # Fetch all history for all tags and branches
-        token: ${{ inputs.gh-token }}
+        token: ${{ inputs.gh_token }}
 
     - name: Checkout Repository (User)
       uses: actions/checkout@v4
@@ -79,7 +79,7 @@ runs:
         repository: ${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}
         path: ${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}
         fetch-depth: 0 # Fetch all history for all tags and branches
-        token: ${{ inputs.gh-token }}  
+        token: ${{ inputs.gh_token }}  
 
     - name: Sync Action Status
       env:
