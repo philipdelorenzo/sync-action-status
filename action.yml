@@ -27,11 +27,6 @@ inputs:
     required: true
     default: None
 
-#outputs:
-#  random-number:
-#    description: "Random number"
-#    value: ${{ steps.random-number-generator.outputs.random-number }}
-
 runs:
   using: "composite"
   steps:
@@ -50,15 +45,14 @@ runs:
 
     - id: rname
       run: |
-        echo "repo_name=$(echo ${{ inputs.repo }} | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
-        
+        echo "repo_name=$(echo "${{ inputs.repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Sync Action Status
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
         GH_ACTOR: ${{ inputs.gh_actor }}
-        WORKDIR: ${{ github.workspace }}/${{ inputs.org }}/manscaped-sre-deployments
+        WORKDIR: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
