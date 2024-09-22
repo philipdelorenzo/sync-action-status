@@ -48,10 +48,17 @@ runs:
         echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Pip Installation Complete"
       shell: bash
 
+    - id: rname
+      run: |
+        echo "repo_name=$(echo ${{ inputs.repo }} | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
+        
+      shell: bash
+
     - name: Sync Action Status
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
         GH_ACTOR: ${{ inputs.gh_actor }}
+        WORKDIR: ${{ github.workspace }}/${{ inputs.org }}/manscaped-sre-deployments
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
