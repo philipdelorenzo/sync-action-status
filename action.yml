@@ -61,8 +61,7 @@ runs:
         else
           export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
         fi
-        echo "$WORKDIR"
-        ls -las $WORKDIR
+
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
         else
