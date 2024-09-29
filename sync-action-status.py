@@ -78,9 +78,9 @@ args = parser.parse_args()
 
 # Let's set the GitHub API URL
 if args.is_org:
-    _gh_api_id = f"/orgs/{args.org}/{args.repo}"
+    _api_data = f"/orgs/{args.org}/{args.repo}"
 else:
-    _gh_api_id = f"/repos/{gh_actor}/{args.repo}"
+    _api_data = f"/repos/{gh_actor}/{args.repo}"
 
 ### Let's set debugging on if the flag is past
 if args.debug:
@@ -94,7 +94,7 @@ _gh_token = os.getenv(
 
 _api = GithubAPI(
     token=_gh_token,
-    api_data=_gh_api_id
+    api_data=_api_data
 )  # Let's create an instance of the GithubAPI class
 
 if __name__ == "__main__":
