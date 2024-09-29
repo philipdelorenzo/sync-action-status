@@ -9,6 +9,7 @@ from datetime import datetime, timezone, UTC
 from src.checks import check_gh_token, prerequisites
 from src.exceptions import GHTokenError
 from src.gh import auth, github, get_repos, get_repository_dispatch
+from src.gh_api import GithubAPI
 
 from src.gh import (
     get_workflow_data,
@@ -22,6 +23,7 @@ from src.gh import (
 BASE = os.path.dirname(
     os.path.abspath(__file__)
 )  # Get the base directory of the script
+
 ic.disable()  # Disable icecream by default
 
 parser = argparse.ArgumentParser(
@@ -50,6 +52,13 @@ parser.add_argument(
     required=True,
     help="The source repository to sync the status from.",
 )
+parser.add_argument(
+    "--debug",
+    action="store_true",
+    type=bool,
+    required=False,
+    help="Run in debug mode.",
+)
 
 # If is_org is set to True, then we want to require the org argument
 if parser.parse_args().is_org:
@@ -67,12 +76,26 @@ else:
 
 args = parser.parse_args()
 
+# Let's set the GitHub API URL
+if args.is_org:
+    _gh_api_id = f"/orgs/{args.org}/{args.repo}"
+else:
+    _gh_api_id = f"/repos/{gh_actor}/{args.repo}"
+
+### Let's set debugging on if the flag is past
+if args.debug:
+    ic.enable()
+
 ### Environment Variables ###
 # GH_TOKEN
 _gh_token = os.getenv(
     "GH_TOKEN"
 )  # Let's set this as a variable so we don't have to pass it in in clear text
 
+_api = GithubAPI(
+    token=_gh_token,
+    api_data=_gh_api_id
+)  # Let's create an instance of the GithubAPI class
 
 if __name__ == "__main__":
     # Let's check to ensure that our token is set
@@ -95,12 +118,18 @@ if __name__ == "__main__":
         auth = auth(gh_token=_gh_token)
         api = github(auth=auth)  # Connect to the GitHub API
 
-        # Get the repos
-        #repos = get_repos(api=api)
-
         workflow_data = get_workflow_data(repo=repo_dispatch) # Let's get a list of the workflows in the repos
+        ic(f"Workflow Data: {workflow_data}")
+        
         event_type_data = get_event_type_list_for_workflows(repo=repo_dispatch) # Let's get a list of the event types for the workflows
-        filtered_events = {k: v for k, v in event_type_data.items() if args.eventType in v}
+        ic(f"Event Type Data: {event_type_data}")
+
+        # This will return a dictionary of the event types for the workflows
+        for k, v in event_type_data.items():
+            print(f"Event Type: {k} - {v}")
+
+        filtered_events = {k: v for k, v in event_type_data.items() if args.eventType in v} # Let's filter the event types for the workflows
+        ic(f"Filtered Events: {filtered_events}")
 
         if len(filtered_events) > 1:
             print(f"Found multiple workflows for the event type {args.eventType}")
