@@ -18,7 +18,7 @@ BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of th
 WORKDIR = os.environ.get("WORKDIR") # Get the workflows directory
 
 class GithubAPI:
-    def init(
+    def __init__(
             self,
             token: str,
             api_data: str
