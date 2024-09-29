@@ -26,6 +26,10 @@ inputs:
     description: 'The github actor to use for the status'
     required: true
     default: None
+  event_type:  # The event type to use for the status
+    description: 'The event type to use for the status'
+    required: true
+    default: None
   debug:
     description: 'Run the workflow in debug mode'
     required: false
@@ -95,16 +99,16 @@ runs:
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           export WORKDIR="${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}"
           if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}" --debug
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}" --debug
           else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}"
           fi
         else
           export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
           if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}" --debug
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}" --debug
           else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}"
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}"
           fi
         fi
 
