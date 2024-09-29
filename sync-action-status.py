@@ -55,8 +55,8 @@ parser.add_argument(
 parser.add_argument(
     "--debug",
     action="store_true",
-    type=bool,
     required=False,
+    default=False,
     help="Run in debug mode.",
 )
 
