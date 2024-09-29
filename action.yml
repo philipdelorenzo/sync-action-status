@@ -28,8 +28,9 @@ inputs:
     default: None
   debug:
     description: 'Run the workflow in debug mode'
+    type: boolean
     required: false
-    default: 'false'
+    default: false
 
 runs:
   using: "composite"
