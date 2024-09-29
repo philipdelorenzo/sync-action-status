@@ -6,7 +6,8 @@ on:
       debug:
         description: 'Run the workflow in debug mode'
         required: false
-        default: 'false'
+        type: boolean
+        default: false
 
 jobs:
   test:
