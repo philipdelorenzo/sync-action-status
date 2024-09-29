@@ -128,7 +128,25 @@ if __name__ == "__main__":
         for k, v in event_type_data.items():
             print(f"Event Type: {k} - {v}")
 
-        filtered_events = {k: v for k, v in event_type_data.items() if args.eventType in v} # Let's filter the event types for the workflows
+        filtered_events = {} # Let's create an empty dictionary to store the filtered events
+        for _name, _event in event_type_data.items():
+            if len(_event) == 1:
+                if args.eventType in _event:
+                    filtered_events[_name] = _event
+                else:
+                    print(f"Event Type {args.eventType} not found in {_event}")
+                    exit(5)
+
+            elif len(v) > 1:
+                for i in _event:
+                    print(f"Event Type {args.eventType} not found in {_event}")
+                    print("Development work needed here.")
+                    exit(0)
+
+            else:
+                print(f"Event Type {args.eventType} not found in {_event}")
+                exit(5)
+
         ic(f"Filtered Events: {filtered_events}")
 
         if len(filtered_events) > 1:
