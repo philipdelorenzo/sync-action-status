@@ -26,6 +26,10 @@ inputs:
     description: 'The github actor to use for the status'
     required: true
     default: None
+  debug:
+    description: 'Run the workflow in debug mode'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
@@ -90,10 +94,18 @@ runs:
         #echo "::group::Sync Action Status"
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           export WORKDIR="${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}"
-          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
+          if [[ "${{ inputs.debug }}" == "true" ]]; then
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}" --debug
+          else
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --org "${{ inputs.org }}"
+          fi
         else
           export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
-          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}"
+          if [[ "${{ inputs.debug }}" == "true" ]]; then
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}" --debug
+          else
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --repo "${{ inputs.repo }}"
+          fi
         fi
 
         #echo "::endgroup::"
