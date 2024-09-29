@@ -133,7 +133,7 @@ if __name__ == "__main__":
 
         # This will return a dictionary of the event types for the workflows
         for k, v in event_type_data.items():
-            print(f"Event Type: {k} - {v}")
+            print(f"Event Type Name: {k} - Event Type Data: {v}")
 
         filtered_events = {} # Let's create an empty dictionary to store the filtered events
         for _name, _event in event_type_data.items():

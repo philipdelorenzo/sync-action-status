@@ -9,9 +9,11 @@ on:
         type: boolean
         default: false
 
+env:
+  EVENT_TYPE: "test_run"
+
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +24,7 @@ jobs:
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        EVENT_TYPE: test_run
+        #EVENT_TYPE: test_run
         ORG: philipdelorenzo # Replace with your org/user
         REPO: test-sync-action-status
       run: |
