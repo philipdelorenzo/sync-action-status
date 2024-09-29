@@ -59,6 +59,13 @@ parser.add_argument(
     default=False,
     help="Run in debug mode.",
 )
+parser.add_argument(
+    "--event_type",
+    dest="event_type",
+    type=str,
+    required=True,
+    help="The event type to sync the status from.",
+)
 
 # If is_org is set to True, then we want to require the org argument
 if parser.parse_args().is_org:
@@ -131,26 +138,26 @@ if __name__ == "__main__":
         filtered_events = {} # Let's create an empty dictionary to store the filtered events
         for _name, _event in event_type_data.items():
             if len(_event) == 1:
-                if args.eventType in _event:
+                if args.event_type in _event:
                     filtered_events[_name] = _event
                 else:
-                    print(f"Event Type {args.eventType} not found in {_event}")
+                    print(f"Event Type {args.event_type} not found in {_event}")
                     exit(5)
 
             elif len(v) > 1:
                 for i in _event:
-                    print(f"Event Type {args.eventType} not found in {_event}")
+                    print(f"Event Type {args.event_type} not found in {_event}")
                     print("Development work needed here.")
                     exit(0)
 
             else:
-                print(f"Event Type {args.eventType} not found in {_event}")
+                print(f"Event Type {args.event_type} not found in {_event}")
                 exit(5)
 
         ic(f"Filtered Events: {filtered_events}")
 
         if len(filtered_events) > 1:
-            print(f"Found multiple workflows for the event type {args.eventType}")
+            print(f"Found multiple workflows for the event type {args.event_type}")
             sys.exit(5)
 
         # This currently assumes there is ONLY 1 workflow for the event type
@@ -177,7 +184,7 @@ if __name__ == "__main__":
             follow_workflow_job(workflow_job_id=_workflow_job_id, interval=args.interval)
 
         else:
-            print(f"Multiple event types {args.eventType} found -- SRE Code changes needed to facilitate.")
+            print(f"Multiple event types {args.event_type} found -- SRE Code changes needed to facilitate.")
             sys.exit(5)
 
         # Close the connection
