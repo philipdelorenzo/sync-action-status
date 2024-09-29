@@ -139,19 +139,20 @@ if __name__ == "__main__":
         for _name, _event in event_type_data.items():
             if len(_event) == 1:
                 if args.event_type in _event:
+                    print(f"Event Type: {args.event_type} found in {_event}")
                     filtered_events[_name] = _event
                 else:
-                    print(f"Event Type {args.event_type} not found in {_event}")
+                    print(f"Event Type: {args.event_type} not found in {_event}")
                     exit(5)
 
             elif len(v) > 1:
                 for i in _event:
-                    print(f"Event Type {args.event_type} not found in {_event}")
+                    print(f"Event Type {args.event_type} --> {_event}")
                     print("Development work needed here.")
                     exit(0)
 
             else:
-                print(f"Event Type {args.event_type} not found in {_event}")
+                print(f"Event Type: {args.event_type} not found in {_event}")
                 exit(5)
 
         ic(f"Filtered Events: {filtered_events}")
