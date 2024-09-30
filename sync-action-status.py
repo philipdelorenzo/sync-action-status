@@ -166,7 +166,7 @@ if __name__ == "__main__":
         if len(filtered_events) == 1:
             workflow_name = list(filtered_events.keys())[0] # This will be used as the key to find the id number of the workflow
             workflow_id = get_workflow_id(_name=workflow_name, repo=repo_dispatch) # This will return the id of the workflow passed in as an argument
-            current_running_jobs = current_running_job_list(_name=workflow_name)
+            current_running_jobs = current_running_job_list(_name=workflow_name, repo=repo_dispatch)
             filtered_jobs = filter_job_list(current_running_jobs)
             _workflow_job_id = filtered_jobs['databaseId']
 
