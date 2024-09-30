@@ -87,13 +87,13 @@ def get_workflow_data(repo: str) -> list[dict]:
     return json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())
 
 
-def get_workflow_id(_name: str) -> int:
+def get_workflow_id(_name: str, repo: str) -> int:
     """This function will return the id of the workflow passed in as an argument.
     
     Returns:
         int: The id of the workflow passed in as an argument.
     """
-    workflow_data = get_workflow_data() # Let's get a list of the workflows in the repos
+    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
 
     id = [i["id"] for i in workflow_data if i["name"] == _name][0] # This will return the id of the workflow, if the name passed in matches one of these
     
