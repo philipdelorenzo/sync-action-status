@@ -220,11 +220,13 @@ def filter_job_list(current_running_job_list: list) -> list:
     return current_running_job_list[job_index] # Return the job with the smallest time delta
 
 
-def follow_workflow_job(workflow_job_id: int, interval: str) -> None:
+def follow_workflow_job(workflow_job_id: int, interval: str, repo: str) -> None:
     """Follow the logs of the workflow job passed in as an argument.
 
     Args:
         workflow_job_id (int): The workflow job id to follow the logs for.
+        interval (str): The interval to follow the logs at.
+        repo (str): The repository to follow the logs for.
     """
     # Let's follow the logs of the workflow and exit status
     _cmd = [
@@ -233,7 +235,7 @@ def follow_workflow_job(workflow_job_id: int, interval: str) -> None:
         "watch",
         str(workflow_job_id),
         "--repo",
-        deployment_data["url"],
+        repo,
         "--interval",
         interval,
         "--exit-status"

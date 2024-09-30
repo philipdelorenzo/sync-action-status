@@ -182,7 +182,7 @@ if __name__ == "__main__":
             print(f"Workflow Run ID: {_workflow_job_id}")
 
             # Let's follow the logs of the workflow and exit status
-            follow_workflow_job(workflow_job_id=_workflow_job_id, interval=args.interval)
+            follow_workflow_job(workflow_job_id=_workflow_job_id, interval=args.interval, repo=repo_dispatch)
 
         else:
             print(f"Multiple event types {args.event_type} found -- SRE Code changes needed to facilitate.")
