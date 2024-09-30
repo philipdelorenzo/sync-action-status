@@ -116,10 +116,10 @@ if __name__ == "__main__":
     repo_dispatch = get_repository_dispatch(gh_actor=gh_actor, args=args)
 
     if args.is_org:
-        print(f"Organization: {args.org}")
+        ic(f"Organization: {args.org}")
 
     else:
-        print(f"Actor: {os.getenv('GH_ACTOR')}")
+        ic(f"Actor: {os.getenv('GH_ACTOR')}")
 
         # Let's get our auth setup for the GitHub API
         auth = auth(gh_token=_gh_token)
@@ -132,11 +132,9 @@ if __name__ == "__main__":
         ic(f"Event Type Data: {event_type_data}")
 
         # This will return a dictionary of the event types for the workflows
-        for k, v in event_type_data.items():
-            print(f"Event Type Name: {k} - Event Type Data: {v}")
-
         filtered_events = {} # Let's create an empty dictionary to store the filtered events
         for _name, _event in event_type_data.items():
+            ic(f"Event Type Name: {_name} - Event Type Data: {_event}")
             if len(_event) == 1:
                 if args.event_type in _event:
                     print(f"Event Type: {args.event_type} found in {_event}")
@@ -145,9 +143,9 @@ if __name__ == "__main__":
                     print(f"Event Type: {args.event_type} not found in {_event}")
                     exit(5)
 
-            elif len(v) > 1:
+            elif len(_event) > 1:
                 for i in _event:
-                    print(f"Event Type {args.event_type} --> {_event}")
+                    ic(f"Event Type {args.event_type} --> {_event}")
                     print("Development work needed here.")
                     exit(0)
 
