@@ -14,7 +14,7 @@ inputs:
   #  description: 'The organization to sync the status to'
   #  required: false
   #  default: None
-  repo:  # The repository to sync the status to
+  target_repo:  # The repository to sync the status to
     description: 'The repository to sync the status to'
     required: true
     default: None

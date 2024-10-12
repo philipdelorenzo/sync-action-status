@@ -29,7 +29,7 @@ jobs:
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        ORG: philipdelorenzo # Replace with your org/user
+        ORG: ${{ github.repository_owner }}
         REPO: test-sync-action-status
       run: |
         curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
@@ -39,5 +39,5 @@ jobs:
         is_org: false
         gh_token: ${{ secrets.GH_TOKEN }}
         event_type: ${EVENT_TYPE}
-        repo: ${{ github.repository }}
+        target_repo: test-sync-action-status
         debug: ${{ github.event.inputs.debug }}

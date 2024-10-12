@@ -110,8 +110,8 @@ if __name__ == "__main__":
     auth = auth(gh_token=_gh_token)
     api = github(auth=auth)  # Connect to the GitHub API
 
-    workflow_data = get_workflow_data(repo=repo_dispatch) # Let's get a list of the workflows in the repo
-    ic(f"Workflow Data: {workflow_data}")
+    #workflow_data = get_workflow_data(repo=repo_dispatch) # Let's get a list of the workflows in the repo
+    #ic(f"Workflow Data: {workflow_data}")
     
     event_type_data = get_event_type_list_for_workflows(repo=repo_dispatch) # Let's get a list of the event types for the workflows
     ic(f"Event Type Data: {event_type_data}")
