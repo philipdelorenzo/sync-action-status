@@ -87,9 +87,9 @@ runs:
         #echo "::group::Sync Action Status"
         export WORKDIR="${{ github.workspace }}/${{ inputs.repo }}"
         if [[ "${{ inputs.debug }}" == "true" ]]; then
-          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}" --debug
+          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}"--debug
         else
-          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}"
+          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}""
         fi
 
         #echo "::endgroup::"
