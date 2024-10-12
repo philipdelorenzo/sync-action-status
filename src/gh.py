@@ -107,25 +107,31 @@ def get_workflow_id(_name: str, repo: str) -> int:
     return id
 
 
-def get_event_type_list_for_workflows(repo: str, event_triggers_for_workflows: dict = {}) -> dict[str, list[str]]:
+def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:
     """This function will return the event triggers for the workflows.
 
     This function iterates through all of the github workflows in the repository
     and returns the event triggers for the workflows.
 
+    Args:
+        repo (str): The repository to get the event triggers for the workflows.
     Returns:
         dict[str, list[str]]: The event triggers for the workflows
     """
+    event_triggers_for_workflows: dict = {}
     workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
 
     for workflow in workflow_data:
         # Based on the workflow information - Let's get MORE data from the actual workflow definition file
-        print(f"Workdir --> {WORKDIR}")
+        ic(f"Workdir --> {WORKDIR}")
+        ic(f"Workflow Path: {workflow['path']}")
         _ymlfile = os.path.join(WORKDIR, workflow["path"])
 
         with open(_ymlfile, "r") as file:
             _data = yaml.safe_load(file)
 
+        ic(f"Workflow Data: {_data}")
+        
         if True in _data.keys():
             # This found the on: key in the workflow file
             if "repository_dispatch" in _data[True].keys():
