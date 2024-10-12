@@ -67,27 +67,16 @@ parser.add_argument(
     help="The event type to sync the status from.",
 )
 
-# If is_org is set to True, then we want to require the org argument
-if parser.parse_args().is_org:
-    parser.add_argument(
-        "--org",
-        dest="org",
-        type=str,
-        required=True,
-        help="The source repository to sync the status from.",
-    )
-else:
-    gh_actor = os.environ.get(
-        "GH_ACTOR"
-    )  # If is_org is false, then we want to use the actor as the org
-
 args = parser.parse_args()
 
 # Let's set the GitHub API URL
 if args.is_org:
-    _api_data = f"/orgs/{args.org}/{args.repo}"
+    _api_data = f"/orgs/{args.repo}"
 else:
-    _api_data = f"/repos/{gh_actor}/{args.repo}"
+    _api_data = f"/repos/{args.repo}"
+
+gh_actor = args.repo.split("/")[0]  # Let's get the GitHub actor from the repo
+repo_name = args.repo.split("/")[1]  # Let's get the repo name from the repo
 
 ### Let's set debugging on if the flag is past
 if args.debug:

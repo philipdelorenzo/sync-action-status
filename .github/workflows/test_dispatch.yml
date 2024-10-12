@@ -38,8 +38,6 @@ jobs:
       with:
         is_org: false
         gh_token: ${{ secrets.GH_TOKEN }}
-        gh_actor: ${{ github.actor }}
-        org: ""
         event_type: ${EVENT_TYPE}
-        repo: test-sync-action-status
+        repo: ${{ github.repository }}
         debug: ${{ github.event.inputs.debug }}
