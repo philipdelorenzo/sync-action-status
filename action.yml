@@ -86,10 +86,18 @@ runs:
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
         export WORKDIR="${{ github.workspace }}/${{ inputs.repo }}"
-        if [[ "${{ inputs.debug }}" == "true" ]]; then
-          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --debug
+        if [[ "${{ inputs.is_org }}" == "true" ]]; then
+          if [[ "${{ inputs.debug }}" == "true" ]]; then
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}" --debug
+          else
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}"
+          fi
         else
-          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}"
+          if [[ "${{ inputs.debug }}" == "true" ]]; then
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}" --debug
+          else
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}"
+          fi
         fi
 
         #echo "::endgroup::"
