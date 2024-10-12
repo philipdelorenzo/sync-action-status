@@ -21,6 +21,11 @@ jobs:
       with:
         fetch-depth: 1
 
+    - run: |
+        echo "${{ github.actor }}"
+        echo "${{ github.repository }}"
+        echo "${{ github.repository_owner }}"
+
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
