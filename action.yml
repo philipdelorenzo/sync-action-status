@@ -10,10 +10,10 @@ inputs:
     description: 'Your GitHub token'
     required: true
     default: None
-  org:  # The organization to sync the status to
-    description: 'The organization to sync the status to'
-    required: false
-    default: None
+  #org:  # The organization to sync the status to
+  #  description: 'The organization to sync the status to'
+  #  required: false
+  #  default: None
   repo:  # The repository to sync the status to
     description: 'The repository to sync the status to'
     required: true
@@ -22,10 +22,10 @@ inputs:
     description: 'The interval to check for the status'
     required: false
     default: "30" # The is the interval to check for the status in seconds
-  gh_actor:  # The actor to use for the status
-    description: 'The github actor to use for the status'
-    required: true
-    default: None
+  #gh_actor:  # The actor to use for the status
+  #  description: 'The github actor to use for the status'
+  #  required: true
+  #  default: None
   event_type:  # The event type to use for the status
     description: 'The event type to use for the status'
     required: true
@@ -38,20 +38,20 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Prerequisites
-      run: |
-        if [[ "${{ inputs.is_org }}" == 'true' ]]; then
-          if [[ -z "${{ inputs.org }}" ]] || [[ "${{ inputs.org }}" == "" ]]; then
-            echo "Organization is required when is_org is true"
-            exit 1
-          fi
-        else:
-          if [[ -z "${{ inputs.gh_actor }}" ]] || [[ "${{ inputs.gh_actor }}" == "" ]]; then
-            echo "GitHub Actor is required when is_org is false"
-            exit 1
-          fi
-        fi
-      shell: bash
+    #- name: Prerequisites
+    #  run: |
+    #    if [[ "${{ inputs.is_org }}" == 'true' ]]; then
+    #      if [[ -z "${{ inputs.org }}" ]] || [[ "${{ inputs.org }}" == "" ]]; then
+    #        echo "Organization is required when is_org is true"
+    #        exit 1
+    #      fi
+    #    else:
+    #      if [[ -z "${{ inputs.gh_actor }}" ]] || [[ "${{ inputs.gh_actor }}" == "" ]]; then
+    #        echo "GitHub Actor is required when is_org is false"
+    #        exit 1
+    #      fi
+    #    fi
+    #  shell: bash
 
     - uses: actions/setup-python@v5
       with:
@@ -85,20 +85,11 @@ runs:
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
-        if [[ "${{ inputs.is_org }}" == "true" ]]; then
-          export WORKDIR="${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}"
-          if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}" --debug
-          else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}"
-          fi
+        export WORKDIR="${{ github.workspace }}/${{ inputs.repo }}"
+        if [[ "${{ inputs.debug }}" == "true" ]]; then
+          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}" --debug
         else
-          export WORKDIR="${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}"
-          if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}" --debug
-          else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}"
-          fi
+          python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --repo "${{ inputs.repo }}" --event_type "${{ inputs.event_type }}" --org "${{ inputs.org }}"
         fi
 
         #echo "::endgroup::"
