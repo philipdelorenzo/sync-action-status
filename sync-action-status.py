@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # If the is_org flag is set to True, then we want to use the org argument
     repo_dispatch = get_repository_dispatch(args=args)
 
-    ic(f"Actor\Org: {gh_actor_org}")
+    ic(f"Actor-Org: {gh_actor_org}")
 
     # Let's get our auth setup for the GitHub API
     auth = auth(gh_token=_gh_token)
