@@ -70,7 +70,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 # Let's set the GitHub API URL
-if args.is_org:
+if args.is_org == True:
     _api_data = f"/orgs/{args.repo}"
 else:
     _api_data = f"/repos/{args.repo}"
