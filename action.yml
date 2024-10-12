@@ -71,28 +71,17 @@ runs:
         echo "repo_name=$(echo "${{ inputs.repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
       shell: bash
 
-    - name: Checkout Repository (Org)
+    - name: Checkout Repository
       uses: actions/checkout@v4
-      if: inputs.is_org == 'true'
       with:
-        repository: ${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
-        path: ${{ github.workspace }}/${{ inputs.org }}/${{ steps.rname.outputs.repo_name }}
-        fetch-depth: 0 # Fetch all history for all tags and branches
-        token: ${{ inputs.gh_token }}
-
-    - name: Checkout Repository (User)
-      uses: actions/checkout@v4
-      if: inputs.is_org == 'false'
-      with:
-        repository: ${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}
-        path: ${{ github.workspace }}/${{ inputs.gh_actor }}/${{ steps.rname.outputs.repo_name }}
+        repository: ${{ inputs.repo }}
+        path: ${{ github.workspace }}/${{ inputs.repo }}
         fetch-depth: 0 # Fetch all history for all tags and branches
         token: ${{ inputs.gh_token }}  
 
     - name: Sync Action Status
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
-        GH_ACTOR: ${{ inputs.gh_actor }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"

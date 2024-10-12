@@ -108,7 +108,7 @@ if __name__ == "__main__":
         ic(f"Organization: {args.org}")
 
     else:
-        ic(f"Actor: {os.getenv('GH_ACTOR')}")
+        ic(f"Actor: {gh_actor}")
 
         # Let's get our auth setup for the GitHub API
         auth = auth(gh_token=_gh_token)
