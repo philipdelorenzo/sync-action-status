@@ -48,9 +48,9 @@ def get_repository_dispatch(gh_actor: str, args: argparse.ArgumentParser.parse_a
         str: The repository dispatch URL for the repository passed in as an argument.
     """
     if args.is_org:
-        url = f"https://github.com/orgs/{args.org}/{args.repo}"
+        url = f"https://github.com/orgs/{args.repo}"
     else:
-        url = f"https://github.com/{gh_actor}/{args.repo}"
+        url = f"https://github.com/{args.repo}"
 
     return url
 
