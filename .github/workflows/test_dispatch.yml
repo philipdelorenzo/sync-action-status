@@ -10,7 +10,8 @@ on:
         default: false
 
 env:
-  EVENT_TYPE: "test_run"
+  EVENT_TYPE: test_run
+  TARGET_REPO_NAME: test-sync-action-status
 
 jobs:
   test:
@@ -30,7 +31,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         ORG: ${{ github.repository_owner }}
-        REPO: test-sync-action-status
+        REPO: ${TARGET_REPO_NAME}
       run: |
         curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
 
@@ -39,5 +40,5 @@ jobs:
         is_org: false
         gh_token: ${{ secrets.GH_TOKEN }}
         event_type: ${EVENT_TYPE}
-        target_repo: test-sync-action-status
+        target_repo: ${{ github.repository_owner }}/${TARGET_REPO_NAME}
         debug: ${{ github.event.inputs.debug }}
