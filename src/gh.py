@@ -37,11 +37,10 @@ def get_repos(api: Github) -> list:
     return repos
 
 
-def get_repository_dispatch(gh_actor: str, args: argparse.ArgumentParser.parse_args) -> str:
+def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
     """This function will return the repository dispatch URL for the repository passed in as an argument.
 
     Args:
-        gh_actor (str): The GitHub actor to get the repository dispatch URL for.
         args (argparse.ArgumentParser.parse_args): The arguments passed in as an argument.
 
     Returns:

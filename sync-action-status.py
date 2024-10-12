@@ -75,7 +75,7 @@ if args.is_org:
 else:
     _api_data = f"/repos/{args.repo}"
 
-gh_actor = args.repo.split("/")[0]  # Let's get the GitHub actor from the repo
+gh_actor_org = args.repo.split("/")[0]  # Let's get the GitHub actor from the repo
 repo_name = args.repo.split("/")[1]  # Let's get the repo name from the repo
 
 ### Let's set debugging on if the flag is past
@@ -102,13 +102,13 @@ if __name__ == "__main__":
 
     # Let's get the repository dispatch org/repo
     # If the is_org flag is set to True, then we want to use the org argument
-    repo_dispatch = get_repository_dispatch(gh_actor=gh_actor, args=args)
+    repo_dispatch = get_repository_dispatch(args=args)
 
     if args.is_org:
         ic(f"Organization: {args.org}")
 
     else:
-        ic(f"Actor: {gh_actor}")
+        ic(f"Actor: {gh_actor_org}")
 
         # Let's get our auth setup for the GitHub API
         auth = auth(gh_token=_gh_token)
