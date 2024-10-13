@@ -40,5 +40,6 @@ jobs:
         is_org: false
         gh_token: ${{ secrets.GH_TOKEN }}
         event_type: ${EVENT_TYPE}
+        # You must use this action ONLY with repositories that you own
         target_repo: ${{ github.repository_owner }}/${TARGET_REPO_NAME}
         debug: ${{ github.event.inputs.debug }}
