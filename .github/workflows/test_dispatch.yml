@@ -30,6 +30,7 @@ jobs:
           echo "Target Repository Name: $TARGET_REPO_NAME"
 
           echo "Dispatching event to ${{ github.repository_owner }}/$TARGET_REPO_NAME"
+          env | sort
 
     - name: Set Target Dispatch Repository
       id: target
