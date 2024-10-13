@@ -10,10 +10,6 @@ inputs:
     description: 'Your GitHub token'
     required: true
     default: None
-  #org:  # The organization to sync the status to
-  #  description: 'The organization to sync the status to'
-  #  required: false
-  #  default: None
   target_repo:  # The repository to sync the status to
     description: 'The repository to sync the status to'
     required: true
@@ -22,10 +18,6 @@ inputs:
     description: 'The interval to check for the status'
     required: false
     default: "30" # The is the interval to check for the status in seconds
-  #gh_actor:  # The actor to use for the status
-  #  description: 'The github actor to use for the status'
-  #  required: true
-  #  default: None
   event_type:  # The event type to use for the status
     description: 'The event type to use for the status'
     required: true
@@ -38,21 +30,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    #- name: Prerequisites
-    #  run: |
-    #    if [[ "${{ inputs.is_org }}" == 'true' ]]; then
-    #      if [[ -z "${{ inputs.org }}" ]] || [[ "${{ inputs.org }}" == "" ]]; then
-    #        echo "Organization is required when is_org is true"
-    #        exit 1
-    #      fi
-    #    else:
-    #      if [[ -z "${{ inputs.gh_actor }}" ]] || [[ "${{ inputs.gh_actor }}" == "" ]]; then
-    #        echo "GitHub Actor is required when is_org is false"
-    #        exit 1
-    #      fi
-    #    fi
-    #  shell: bash
-
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
@@ -68,7 +45,11 @@ runs:
 
     - id: rname
       run: |
+        echo -e "\u001b[36mGetting Repository Name\u001b[0m"
+        echo "::group::Repository Name"
         echo "repo_name=$(echo "${{ inputs.target_repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+        echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Complete"
       shell: bash
 
     - name: Checkout Repository
@@ -84,7 +65,7 @@ runs:
         GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
-        #echo "::group::Sync Action Status"
+        echo "::group::Sync Action Status"
         export WORKDIR="${{ github.workspace }}/${{ inputs.target_repo }}"
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           if [[ "${{ inputs.debug }}" == "true" ]]; then
@@ -100,6 +81,6 @@ runs:
           fi
         fi
 
-        #echo "::endgroup::"
+        echo "::endgroup::"
         echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Sync Action Status Complete"
       shell: bash
