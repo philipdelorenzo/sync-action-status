@@ -82,6 +82,9 @@ repo_name = args.repo.split("/")[1]  # Let's get the repo name from the repo
 if args.debug:
     ic.enable()
 
+# Let's print out the arguments passed in
+ic(f"Arguments: {args}")
+
 ### Environment Variables ###
 # GH_TOKEN
 _gh_token = os.getenv(
