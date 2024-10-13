@@ -69,6 +69,9 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+# Let's print out the arguments passed in
+ic(f"Arguments: {args}")
+
 # Let's set the GitHub API URL
 if args.is_org == True:
     _api_data = f"/orgs/{args.repo}"
@@ -81,9 +84,6 @@ repo_name = args.repo.split("/")[1]  # Let's get the repo name from the repo
 ### Let's set debugging on if the flag is past
 if args.debug:
     ic.enable()
-
-# Let's print out the arguments passed in
-ic(f"Arguments: {args}")
 
 ### Environment Variables ###
 # GH_TOKEN
