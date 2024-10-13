@@ -34,7 +34,8 @@ jobs:
     - name: Set Target Dispatch Repository
       id: target
       run: |
-        echo "echo target={{{ github.repository_owner }}}/$TARGET_REPO_NAME" >> $GITHUB_OUTPUT
+        echo "target=${{ github.repository_owner }}/$TARGET_REPO_NAME"
+        echo "echo target=${{ github.repository_owner }}/$TARGET_REPO_NAME" >> $GITHUB_OUTPUT
 
     - name: Send a Dispatch to the Test Receiver
       env:
