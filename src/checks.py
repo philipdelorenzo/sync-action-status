@@ -23,5 +23,5 @@ def check_gh_token(gh_token: str) -> None:
 
 def prerequisites(args: argparse.ArgumentParser.parse_args) -> None:
     """This function checks to ensure that all prerequisites are met before running the script."""
-    if (not args.repo) or (args.repo == ""):
-        raise RepoError("The --repo argument is required (this is the repository that houses the receiver action).")
+    if (not args.target_repo) or (args.target_repo == ""):
+        raise RepoError("The --target_repo argument is required (this is the repository that houses the receiver action).")
