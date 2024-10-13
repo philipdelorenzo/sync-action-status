@@ -76,6 +76,11 @@ if args.debug:
 # Let's print out the arguments passed in
 ic(f"Arguments: {args}")
 
+# Let's check to ensure that our token is set
+prerequisites(
+    args=args
+)  # Check the prerequisites, ensure we have what we need to proceed
+
 # Let's set the GitHub API URL
 if args.is_org == True:
     _api_data = f"/orgs/{args.repo}"
@@ -97,10 +102,6 @@ _api = GithubAPI(
 )  # Let's create an instance of the GithubAPI class
 
 if __name__ == "__main__":
-    # Let's check to ensure that our token is set
-    prerequisites(
-        args=args
-    )  # Check the prerequisites, ensure we have what we need to proceed
     check_gh_token(gh_token=_gh_token)  # Check the GitHub token
 
     # Let's get the repository dispatch org/repo
