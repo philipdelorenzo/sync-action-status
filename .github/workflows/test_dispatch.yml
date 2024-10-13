@@ -22,18 +22,21 @@ jobs:
       with:
         fetch-depth: 1
 
-    - run: |
-        echo "${{ github.actor }}"
-        echo "${{ github.repository }}"
-        echo "${{ github.repository_owner }}"
+    - name: Dispatch Test Data
+      run: |
+          echo "Github Actor: ${{ github.actor }}"
+          echo "Current Github Repo: ${{ github.repository }}"
+          echo "Github Repository Owner: ${{ github.repository_owner }}"
+          echo "Target Repository Name: $TARGET_REPO_NAME"
+
+          echo "Dispatching event to ${{ github.repository_owner }}/$TARGET_REPO_NAME"
 
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         ORG: ${{ github.repository_owner }}
-        REPO: ${TARGET_REPO_NAME}
       run: |
-        curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
+        curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${ORG}/${TARGET_REPO_NAME}/dispatches"
 
     - uses: philipdelorenzo/sync-action-status@init
       with:
