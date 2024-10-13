@@ -47,9 +47,9 @@ def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
         str: The repository dispatch URL for the repository passed in as an argument.
     """
     if args.is_org:
-        url = f"https://github.com/orgs/{args.repo}"
+        url = f"https://github.com/orgs/{args.target_repo}"
     else:
-        url = f"https://github.com/{args.repo}"
+        url = f"https://github.com/{args.target_repo}"
 
     return url
 
@@ -122,7 +122,7 @@ def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:
     workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
 
     ic(f"Worflow Data: {workflow_data}")
-    
+
     for workflow in workflow_data:
         # Based on the workflow information - Let's get MORE data from the actual workflow definition file
         ic(f"Workdir --> {WORKDIR}")
