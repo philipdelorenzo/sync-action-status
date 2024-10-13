@@ -31,6 +31,11 @@ jobs:
 
           echo "Dispatching event to ${{ github.repository_owner }}/$TARGET_REPO_NAME"
 
+    - name: Set Target Dispatch Repository
+      id: target
+      run: |
+        echo "echo target={{{ github.repository_owner }}}/$TARGET_REPO_NAME" >> $GITHUB_OUTPUT
+
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -44,5 +49,5 @@ jobs:
         gh_token: ${{ secrets.GH_TOKEN }}
         event_type: ${EVENT_TYPE}
         # You must use this action ONLY with repositories that you own
-        target_repo: "${{ github.repository_owner }}/$TARGET_REPO_NAME"
+        target_repo: "${{ steps.target.outputs.target }}"
         debug: ${{ github.event.inputs.debug }}
