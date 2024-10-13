@@ -46,8 +46,8 @@ parser.add_argument(
     help="The interval to poll the action for status.",
 )
 parser.add_argument(
-    "--repo",
-    dest="repo",
+    "--target_repo",
+    dest="target_repo",
     type=str,
     required=True,
     help="The source repository to sync the status from.",
@@ -83,12 +83,12 @@ prerequisites(
 
 # Let's set the GitHub API URL
 if args.is_org == True:
-    _api_data = f"/orgs/{args.repo}"
+    _api_data = f"/orgs/{args.target_repo}"
 else:
-    _api_data = f"/repos/{args.repo}"
+    _api_data = f"/repos/{args.target_repo}"
 
-gh_actor_org = args.repo.split("/")[0]  # Let's get the GitHub actor from the repo
-repo_name = args.repo.split("/")[1]  # Let's get the repo name from the repo
+gh_actor_org = args.target_repo.split("/")[0]  # Let's get the GitHub actor from the repo
+repo_name = args.target_repo.split("/")[1]  # Let's get the repo name from the repo
 
 ### Environment Variables ###
 # GH_TOKEN
@@ -157,7 +157,6 @@ if __name__ == "__main__":
         filtered_jobs = filter_job_list(current_running_jobs)
         _workflow_job_id = filtered_jobs['databaseId']
 
-        ic(f"Worflow Data: {workflow_data}")
         ic(f"Event Type Data: {event_type_data}")
 
         ic(f"Current Running Jobs: {current_running_jobs}")

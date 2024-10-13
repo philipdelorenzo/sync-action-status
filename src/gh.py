@@ -121,6 +121,8 @@ def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:
     event_triggers_for_workflows: dict = {}
     workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
 
+    ic(f"Worflow Data: {workflow_data}")
+    
     for workflow in workflow_data:
         # Based on the workflow information - Let's get MORE data from the actual workflow definition file
         ic(f"Workdir --> {WORKDIR}")

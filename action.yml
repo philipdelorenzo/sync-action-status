@@ -88,15 +88,15 @@ runs:
         export WORKDIR="${{ github.workspace }}/${{ inputs.repo }}"
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}" --debug
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}" --debug
           else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}"
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}"
           fi
         else
           if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}" --debug
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}" --debug
           else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --repo "${{ inputs.repo }}"
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}"
           fi
         fi
 
