@@ -6,7 +6,7 @@ import argparse
 from icecream import ic  # We will use icecream to print out the job information
 from datetime import datetime, timezone, UTC
 
-from src.checks import check_gh_token, prerequisites, org
+from src.checks import check_gh_token, prerequisites, is_org, repo_owner_verification
 from src.exceptions import GHTokenError
 from src.gh import auth, github, get_repos, get_repository_dispatch
 from src.gh_api import GithubAPI
@@ -46,6 +46,13 @@ parser.add_argument(
     help="The interval to poll the action for status.",
 )
 parser.add_argument(
+    "--current_repo",
+    dest="current_repo",
+    type=str,
+    required=True,
+    help="The current repository calling the sync action.",
+)
+parser.add_argument(
     "--target_repo",
     dest="target_repo",
     type=str,
@@ -81,18 +88,17 @@ prerequisites(
     args=args
 )  # Check the prerequisites, ensure we have what we need to proceed
 
-# Let's set the GitHub API URL
-if args.is_org == True:
-    _api_data = f"/orgs/{args.target_repo}"
-else:
-    _api_data = f"/repos/{args.target_repo}"
+# Let's ensure that the Github Actor owns the repo that we are trying to sync the status from
+repo_owner_verification(args) # This will fail the Action if the owner of the repo is not the same as the owner of the action
 
 gh_actor_org = args.target_repo.split("/")[0]  # Let's get the GitHub actor from the repo
 repo_name = args.target_repo.split("/")[1]  # Let's get the repo name from the repo
 
-if org(github_actor=gh_actor_org):
+if is_org(github_actor=gh_actor_org):
+    _api_data = f"/orgs/{args.target_repo}"
     ic(f"GitHub Actor: {gh_actor_org} is an organization.")
 else:
+    _api_data = f"/repos/{args.target_repo}"
     ic(f"GitHub Actor: {gh_actor_org} is not an organization.")
 
 ### Environment Variables ###

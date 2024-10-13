@@ -32,3 +32,11 @@ class GithubActorError(Exception):
 
         # Now for your custom code...
         self.errors = errors
+
+class RepoOwnershipMixmatch(Exception):
+    def __init__(self, message, errors={}):
+        # Call the base class constructor
+        super().__init__(message)
+
+        # Now for your custom code...
+        self.errors = errors

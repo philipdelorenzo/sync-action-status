@@ -27,12 +27,11 @@ class GithubAPI:
         self.api_data = api_data # The API data to use for the Github API repos/{username}/{repo}/actions/runs
 
         self.repo_actions_data = self.actions_runs
-        print(type(self.repo_actions_data))
+        ic(f"Repo Actions Data(Type) --> {type(self.repo_actions_data)}")
 
     def actions_runs(self) -> str:
         return f"https://api.github.com/repos/{self.api_data}/actions/runs"
 
-        
 # using an access token
 def auth(gh_token: str) -> Auth.Token:
     return Auth.Token(gh_token)

@@ -2,12 +2,16 @@ name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
 author: "Philip De Lorenzo"
 inputs:
-  is_org:  # Whether the repository is an organization
-    description: 'Whether the repository is an organization'
-    required: true
-    default: "false"
+  #is_org:  # Whether the repository is an organization
+  #  description: 'Whether the repository is an organization'
+  #  required: true
+  #  default: "false"
   gh_token:  # The GitHub token to use for access to the API
     description: 'Your GitHub token'
+    required: true
+    default: None
+  current_repo:  # The repository to sync the status to
+    description: 'The current repository calling the action'
     required: true
     default: None
   target_repo:  # The repository to sync the status to
@@ -69,15 +73,15 @@ runs:
         export WORKDIR="${{ github.workspace }}/${{ inputs.target_repo }}"
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}" --debug
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}" --debug
           else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}"
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}"
           fi
         else
           if [[ "${{ inputs.debug }}" == "true" ]]; then
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}" --debug
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}" --debug
           else
-            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}"
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}"
           fi
         fi
 
