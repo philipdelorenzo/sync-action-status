@@ -37,11 +37,13 @@ jobs:
         echo "target=${{ github.repository_owner }}/$TARGET_REPO_NAME"
         echo "echo target=${{ github.repository_owner }}/$TARGET_REPO_NAME" >> $GITHUB_OUTPUT
 
+    # We need to figure out of this is an org. or a user repository
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         ORG: ${{ github.repository_owner }}
       run: |
+        echo "${{ steps.target.outputs.target }}"
         curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${ORG}/${TARGET_REPO_NAME}/dispatches"
 
     - uses: philipdelorenzo/sync-action-status@init
