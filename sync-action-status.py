@@ -1,18 +1,15 @@
 import os
-import json
 import sys
 import argparse
 
 from icecream import ic  # We will use icecream to print out the job information
-from datetime import datetime, timezone, UTC
 
 from src.checks import check_gh_token, prerequisites, is_org, repo_owner_verification
-from src.exceptions import GHTokenError
-from src.gh import auth, github, get_repos, get_repository_dispatch
+from src.exceptions import RepoOwnershipMixmatch
+from src.gh import auth, github, get_repository_dispatch
 from src.gh_api import GithubAPI
 
 from src.gh import (
-    get_workflow_data,
     get_workflow_id,
     get_event_type_list_for_workflows,
     current_running_job_list,
@@ -89,7 +86,8 @@ prerequisites(
 )  # Check the prerequisites, ensure we have what we need to proceed
 
 # Let's ensure that the Github Actor owns the repo that we are trying to sync the status from
-repo_owner_verification(args) # This will fail the Action if the owner of the repo is not the same as the owner of the action
+if not repo_owner_verification(args):
+    raise RepoOwnershipMixmatch("The owner of the repository is not the same as the owner of the action.") # This will fail the Action if the owner of the repo is not the same as the owner of the action
 
 gh_actor_org = args.target_repo.split("/")[0]  # Let's get the GitHub actor from the repo
 repo_name = args.target_repo.split("/")[1]  # Let's get the repo name from the repo

@@ -3,7 +3,7 @@ import os
 import requests
 import argparse
 
-from src.exceptions import GHTokenError, RepoError, GithubActorError, RepoOwnershipMixmatch
+from exceptions import GHTokenError, RepoError, GithubActorError, RepoOwnershipMixmatch
 
 
 def check_gh_token(gh_token: str) -> None:
@@ -41,4 +41,7 @@ def repo_owner_verification(args: argparse.ArgumentParser.parse_args) -> None:
     target_actor = args.target_repo.split("/")[0]
 
     if current_actor != target_actor:
-        raise RepoOwnershipMixmatch("The owner of the repository is not the same as the owner of the action.")
+        return False
+
+    if current_actor == target_actor:
+        return True
