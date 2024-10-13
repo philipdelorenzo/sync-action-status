@@ -68,7 +68,7 @@ runs:
 
     - id: rname
       run: |
-        echo "repo_name=$(echo "${{ inputs.repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
+        echo "repo_name=$(echo "${{ inputs.target_repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Checkout Repository

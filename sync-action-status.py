@@ -6,7 +6,7 @@ import argparse
 from icecream import ic  # We will use icecream to print out the job information
 from datetime import datetime, timezone, UTC
 
-from src.checks import check_gh_token, prerequisites
+from src.checks import check_gh_token, prerequisites, org
 from src.exceptions import GHTokenError
 from src.gh import auth, github, get_repos, get_repository_dispatch
 from src.gh_api import GithubAPI
@@ -89,6 +89,11 @@ else:
 
 gh_actor_org = args.target_repo.split("/")[0]  # Let's get the GitHub actor from the repo
 repo_name = args.target_repo.split("/")[1]  # Let's get the repo name from the repo
+
+if org(github_actor=gh_actor_org):
+    ic(f"GitHub Actor: {gh_actor_org} is an organization.")
+else:
+    ic(f"GitHub Actor: {gh_actor_org} is not an organization.")
 
 ### Environment Variables ###
 # GH_TOKEN

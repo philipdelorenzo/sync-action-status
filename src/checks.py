@@ -1,5 +1,6 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
 import os
+import requests
 import argparse
 
 from src.exceptions import GHTokenError, RepoError, GithubActorError
@@ -25,3 +26,11 @@ def prerequisites(args: argparse.ArgumentParser.parse_args) -> None:
     """This function checks to ensure that all prerequisites are met before running the script."""
     if (not args.target_repo) or (args.target_repo == ""):
         raise RepoError("The --target_repo argument is required (this is the repository that houses the receiver action).")
+
+
+def org(github_actor: str) -> bool:
+    """This function will return True if the Github actor is an organization."""
+    if requests.get(f"https://github.com/org/{github_actor}").status_code == 200:
+        return True
+    
+    return False
