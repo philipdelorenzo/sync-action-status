@@ -74,8 +74,8 @@ runs:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        repository: ${{ inputs.repo }}
-        path: ${{ github.workspace }}/${{ inputs.repo }}
+        repository: ${{ inputs.target_repo }}
+        path: ${{ github.workspace }}/${{ inputs.target_repo }}
         fetch-depth: 0 # Fetch all history for all tags and branches
         token: ${{ inputs.gh_token }}  
 
@@ -85,7 +85,7 @@ runs:
       run: |
         echo -e "\u001b[36mSync Action Status\u001b[0m"
         #echo "::group::Sync Action Status"
-        export WORKDIR="${{ github.workspace }}/${{ inputs.repo }}"
+        export WORKDIR="${{ github.workspace }}/${{ inputs.target_repo }}"
         if [[ "${{ inputs.is_org }}" == "true" ]]; then
           if [[ "${{ inputs.debug }}" == "true" ]]; then
             python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --target_repo "${{ inputs.target_repo }}" --debug
