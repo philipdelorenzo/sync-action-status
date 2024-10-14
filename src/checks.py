@@ -3,7 +3,7 @@ import os
 import requests
 import argparse
 
-from exceptions import GHTokenError, RepoError, GithubActorError, RepoOwnershipMixmatch
+from src.exceptions import GHTokenError, RepoError, GithubActorError, RepoOwnershipMixmatch
 
 
 def check_gh_token(gh_token: str) -> None:

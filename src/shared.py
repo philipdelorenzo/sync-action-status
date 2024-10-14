@@ -7,7 +7,6 @@ import json
 import sys
 import yaml
 import time
-import argparse
 import subprocess # We will use subprocess to run the gh command to get the deployment pipelines
 
 from icecream import ic # We will use icecream to print out the job information

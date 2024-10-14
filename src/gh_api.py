@@ -1,9 +1,5 @@
 import os
-import sys
 import json
-import yaml
-import time
-import argparse
 import subprocess # We will use subprocess to run the gh command to get the deployment pipelines
 
 from github import Github
@@ -39,9 +35,6 @@ def auth(gh_token: str) -> Auth.Token:
 # Public Web Github
 def github(auth: Auth.Token) -> Github:
     return Github(auth=auth)
-
-# Github Enterprise with custom hostname
-#g = Github(base_url="https://{hostname}/api/v3", auth=auth)
 
 # Then play with your Github objects:
 def get_repos(api: Github) -> list:
