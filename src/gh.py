@@ -46,7 +46,7 @@ def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
     if args.is_org:
         url = f"https://github.com/org/{args.target_repo}"
     else:
-        url = f"https://github.com/repos/{args.target_repo}"
+        url = f"https://github.com/{args.target_repo}"
 
     return url
 
