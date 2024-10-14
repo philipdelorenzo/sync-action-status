@@ -30,13 +30,6 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument(
-    "--is_org",
-    action="store_true",
-    required=False,
-    default=False,
-    help="The action to sync the status from.",
-)
-parser.add_argument(
     "--interval",
     type=str,
     required=False,
@@ -78,7 +71,7 @@ if args.debug:
     ic.enable()
 
 # Let's print out the arguments passed in
-ic(f"Arguments: {args}")
+ic(f"Arguments: {args}") # debug
 
 # Let's check to ensure that our token is set
 prerequisites(
@@ -93,11 +86,13 @@ gh_actor_org = args.target_repo.split("/")[0]  # Let's get the GitHub actor from
 repo_name = args.target_repo.split("/")[1]  # Let's get the repo name from the repo
 
 if is_org(github_actor=gh_actor_org):
+    args.is_org = True
     _api_data = f"/orgs/{args.target_repo}"
-    ic(f"GitHub Actor: {gh_actor_org} is an organization.")
+    ic(f"GitHub Actor: {gh_actor_org} is an organization.") # debug
 else:
+    args.is_org = False
     _api_data = f"/repos/{args.target_repo}"
-    ic(f"GitHub Actor: {gh_actor_org} is not an organization.")
+    ic(f"GitHub Actor: {gh_actor_org} is not an organization.") # debug
 
 ### Environment Variables ###
 # GH_TOKEN
@@ -117,22 +112,19 @@ if __name__ == "__main__":
     # If the is_org flag is set to True, then we want to use the org argument
     repo_dispatch = get_repository_dispatch(args=args)
 
-    ic(f"Actor-Org: {gh_actor_org}")
+    ic(f"Actor-Org: {gh_actor_org}") # debug
 
     # Let's get our auth setup for the GitHub API
     auth = auth(gh_token=_gh_token)
     api = github(auth=auth)  # Connect to the GitHub API
-
-    #workflow_data = get_workflow_data(repo=repo_dispatch) # Let's get a list of the workflows in the repo
-    #ic(f"Workflow Data: {workflow_data}")
-    
     event_type_data = get_event_type_list_for_workflows(repo=repo_dispatch) # Let's get a list of the event types for the workflows
+    
     ic(f"Event Type Data: {event_type_data}")
 
     # This will return a dictionary of the event types for the workflows
     filtered_events = {} # Let's create an empty dictionary to store the filtered events
     for _name, _event in event_type_data.items():
-        ic(f"Event Type Name: {_name} - Event Type Data: {_event}")
+        ic(f"Event Type Name: {_name} - Event Type Data: {_event}") # debug
         if len(_event) == 1:
             if args.event_type in _event:
                 print(f"Event Type: {args.event_type} found in {_event}")
@@ -143,7 +135,7 @@ if __name__ == "__main__":
 
         elif len(_event) > 1:
             for i in _event:
-                ic(f"Event Type {args.event_type} --> {_event}")
+                ic(f"Event Type {args.event_type} --> {_event}") # debug
                 print("Development work needed here.")
                 exit(0)
 
@@ -166,10 +158,10 @@ if __name__ == "__main__":
         filtered_jobs = filter_job_list(current_running_jobs)
         _workflow_job_id = filtered_jobs['databaseId']
 
-        ic(f"Event Type Data: {event_type_data}")
+        ic(f"Event Type Data: {event_type_data}") # debug
 
-        ic(f"Current Running Jobs: {current_running_jobs}")
-        ic(f"Filtered Jobs: {filtered_jobs}")
+        ic(f"Current Running Jobs: {current_running_jobs}") # debug
+        ic(f"Filtered Jobs: {filtered_jobs}") # debug
 
         # Let's print the workflow name and id to the console
         print(f"Workflow Name: {workflow_name}")

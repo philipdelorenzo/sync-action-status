@@ -25,9 +25,6 @@ def auth(gh_token: str) -> Auth.Token:
 def github(auth: Auth.Token) -> Github:
     return Github(auth=auth)
 
-# Github Enterprise with custom hostname
-#g = Github(base_url="https://{hostname}/api/v3", auth=auth)
-
 # Then play with your Github objects:
 def get_repos(api: Github) -> list:
     repos = []
@@ -47,9 +44,9 @@ def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
         str: The repository dispatch URL for the repository passed in as an argument.
     """
     if args.is_org:
-        url = f"https://github.com/orgs/{args.target_repo}"
+        url = f"https://github.com/org/{args.target_repo}"
     else:
-        url = f"https://github.com/{args.target_repo}"
+        url = f"https://github.com/repos/{args.target_repo}"
 
     return url
 
