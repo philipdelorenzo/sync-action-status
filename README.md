@@ -16,8 +16,8 @@ To use this Action, there are multiple parts to setup within your Github Action.
 1. Security _(are there any reasons why you would want to keep the functionality of the action secret, this can help)_
 2. SRE can engage with Dev teams with minimal interuptions
     - Let's face it, Development is tough, and developers are busy. Putting all of the Actions in a Repo to run from allows the SRE team to iterate, build, augment Actions without interupting developer's with constant PR requests and extra code bloat in their repo_(s)_.
-3. My personal favorite, allows us to remain in Github - 
-    - In some cases, there are needs for other services like CircleCI, Buildkite, etc. but if we can remain in Github, this is always a plus.
+3. My personal favorite, it allows us to remain in Github - 
+    - In some cases, there are needs for other services like CircleCI, Buildkite, etc. but if we can remain in Github, this is always a plus. It's less cost _(why pay for another service if you already have a service deployed that can do the same thing?)_, and less context switching - These days, Platform Engineers end up working tirelessly just gluing together the plethora of services utilized by their development teams.
 
 ## Prerequisites
 
