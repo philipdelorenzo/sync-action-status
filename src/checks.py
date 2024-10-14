@@ -1,9 +1,8 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
-import os
 import requests
 import argparse
 
-from src.exceptions import GHTokenError, RepoError, GithubActorError, RepoOwnershipMixmatch
+from src.exceptions import GHTokenError, RepoError
 
 
 def check_gh_token(gh_token: str) -> None:
