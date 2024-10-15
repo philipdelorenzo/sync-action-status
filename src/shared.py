@@ -19,8 +19,11 @@ config = json.load(open(os.path.join(BASE, "config.json"))) # Load the config fi
 # Let's get the deployment workflows information from the config
 deployment_data = config["deployment_data"]
 
-def get_workflow_data() -> list[dict]:
+def get_workflow_data(repo: str) -> list[dict]:
     """This function will return the deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments.
+
+    Args:
+        repo (str): The repository to get the workflow data from.
 
     Returns:
         lists: The deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deploy
@@ -41,7 +44,7 @@ def get_workflow_data() -> list[dict]:
             "workflow",
             "list",
             "--repo",
-            deployment_data["url"],
+            repo,
             '--json=name,id,path,state',
         ]
 
@@ -51,14 +54,10 @@ def get_workflow_data() -> list[dict]:
 def get_workflow_id(_name: str, repo: str) -> int:
     """This function will return the id of the workflow passed in as an argument.
     
-    Args:
-        _name (str): The name of the workflow to get the id for.
-        repo (str): The repository to get the workflow id from.
-
     Returns:
         int: The id of the workflow passed in as an argument.
     """
-    workflow_data = get_workflow_data() # Let's get a list of the workflows in the repos
+    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
 
     id = [i["id"] for i in workflow_data if i["name"] == _name][0] # This will return the id of the workflow, if the name passed in matches one of these
     
@@ -73,23 +72,33 @@ def get_workflow_id(_name: str, repo: str) -> int:
     return id
 
 
-def get_event_type_list_for_workflows(event_triggers_for_workflows: dict = {}) -> dict[str, list[str]]:
+def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:
     """This function will return the event triggers for the workflows.
 
     This function iterates through all of the github workflows in the repository
     and returns the event triggers for the workflows.
 
+    Args:
+        repo (str): The repository to get the event triggers for the workflows.
     Returns:
         dict[str, list[str]]: The event triggers for the workflows
     """
-    workflow_data = get_workflow_data() # Let's get a list of the workflows in the repos
+    event_triggers_for_workflows: dict = {}
+    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
+
+    ic(f"Worflow Data: {workflow_data}")
 
     for workflow in workflow_data:
         # Based on the workflow information - Let's get MORE data from the actual workflow definition file
+        ic(f"Workdir --> {WORKDIR}")
+        ic(f"Workflow Path: {workflow['path']}")
         _ymlfile = os.path.join(WORKDIR, workflow["path"])
+
         with open(_ymlfile, "r") as file:
             _data = yaml.safe_load(file)
 
+        ic(f"Workflow Data: {_data}")
+        
         if True in _data.keys():
             # This found the on: key in the workflow file
             if "repository_dispatch" in _data[True].keys():
@@ -99,10 +108,11 @@ def get_event_type_list_for_workflows(event_triggers_for_workflows: dict = {}) -
     return event_triggers_for_workflows
 
 
-def current_running_job_list(_name: str) -> list[dict]:
+def current_running_job_list(repo: str, _name: str) -> list[dict]:
     """Get a list of current running jobs for the workflow id passed in as an argument.
 
     Args:
+        repo (str): The repository to get the current running jobs for.
         workflow_name (str): The workflow name to get the current running jobs for.
 
     Returns:
@@ -119,9 +129,9 @@ def current_running_job_list(_name: str) -> list[dict]:
             "--workflow",
             _name,
             "--repo",
-            deployment_data["url"],
+            repo,
             f"--status=in_progress",
-            "--json=databaseId,conclusion,createdAt,number,status,updatedAt,url,headBranch,headSha,name"
+            "--json=databaseId,conclusion,createdAt,number,status,updatedAt,url,headBranch,headSha,name,displayTitle"
         ]
 
         r = json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())
