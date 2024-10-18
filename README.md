@@ -9,7 +9,19 @@ Github User, this Action will sync the Workflow Status of a `repository_dispatch
 
 Please see [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) and read up on what a repository dispatch is and what it does.
 
+## How this works
+
+```mermaid
+stateDiagram-v2
+Commit --> Github_Action
+Github_Action --> Dispatch
+Dispatch --> Receiver : event_type
+Receiver --> Github_Action : sync-action-status
+```
+
 ## Usage
+
+See [Adding Sync-Action-Status]()
 
 To use this Action, there are multiple parts to setup within your Github Action. The process can seem somewhat difficult, as there are multiple repos involved and calling another repo to run an action can be somewhat confusing. The reason for this action is mainly for SRE/Platform/DevOps Engineers. There are times when we want to keep Actions in one place - for a number of reasons:
 
@@ -25,3 +37,59 @@ In order to accomplish this, you will need to create a new repo that will house 
 
 - `GITHUB_TOKEN` - It is imperative that you setup a Github Token _(PAT)_ for making the calls in between repos, etc.
     - NOTE: Make sure to add this token to the Action Secrets. You will call the GH_TOKEN using `${{ secrets.GH_TOKEN }}`.
+
+## Sync-Action-Status
+
+#### Target Repository
+
+Add the following as a job step:
+
+```yaml
+- name: Set Target Dispatch Repository
+    id: target
+    run: |
+    echo "target=${{ github.repository_owner }}/<your-repository-dispatch-repo>"
+    echo "target=${{ github.repository_owner }}/<your-repository-dispatch-repo>" >> $GITHUB_OUTPUT
+```
+
+#### Sending the API Call
+
+Add the following as a job step:
+
+```yaml
+# The target step sets the repo that you're calling that houses the Repository Dispatch Receiver
+- name: Send a Dispatch to the Test Receiver
+  run: |
+    curl -H "Content-Type: application/json" -H "Authorization: token ${{ secrets.GH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${{ steps.target.outputs.target }}/dispatches"
+```
+
+#### Tail the Repository Dispatch in your Calling Repo
+
+```yaml
+- uses: philipdelorenzo/sync-action-status@<version>
+    with:
+    gh_token: ${{ secrets.GH_TOKEN }} # Add this token to your Github Action Secrets
+    event_type: <repository-dispatch-event-type>
+    current_repo: ${{ github.repository }}
+    # You must use this action ONLY with repositories that you own
+    target_repo: "${{ steps.target.outputs.target }}"
+    debug: ${{ github.event.inputs.debug }} # See below step for setting up debug mode
+```
+
+The above snippet is what follows the Github Action that is running in the repository dispatch receiver.
+
+### Setup Action with Debug Mode
+
+The action uses [icecream](https://github.com/gruns/icecream) for running in debug mode.
+To set this up in your Github Action Workflow, you can add a boolean input:
+
+```yaml
+on: 
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Run the workflow in debug mode'
+        required: false
+        type: boolean
+        default: false
+```
