@@ -7,7 +7,7 @@ A GitHub Action to follow `repository_dispatch` runs in your local repo...
 This Github Action currently only works with repos that you own. If you are calling a repo that is in the same org or owned by the same
 Github User, this Action will sync the Workflow Status of a `repository_dispatch`.
 
-Please see [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) and read up on what a repository dispatch is and what it does.
+Please see [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) if you'd like to read up on what a repository dispatch is, and what it does.
 
 ## How this works
 
@@ -21,7 +21,7 @@ Receiver --> Github_Action : sync-action-status
 
 ## Usage
 
-See [Adding Sync-Action-Status]()
+To begin installing, see [Sync-Action-Status-Install](#sync-action-status-install)
 
 To use this Action, there are multiple parts to setup within your Github Action. The process can seem somewhat difficult, as there are multiple repos involved and calling another repo to run an action can be somewhat confusing. The reason for this action is mainly for SRE/Platform/DevOps Engineers. There are times when we want to keep Actions in one place - for a number of reasons:
 
@@ -38,7 +38,7 @@ In order to accomplish this, you will need to create a new repo that will house 
 - `GITHUB_TOKEN` - It is imperative that you setup a Github Token _(PAT)_ for making the calls in between repos, etc.
     - NOTE: Make sure to add this token to the Action Secrets. You will call the GH_TOKEN using `${{ secrets.GH_TOKEN }}`.
 
-## Sync-Action-Status
+## Sync-Action-Status Install
 
 #### Target Repository
 
@@ -81,6 +81,7 @@ The above snippet is what follows the Github Action that is running in the repos
 ### Setup Action with Debug Mode
 
 The action uses [icecream](https://github.com/gruns/icecream) for running in debug mode.
+
 To set this up in your Github Action Workflow, you can add a boolean input:
 
 ```yaml
