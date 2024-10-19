@@ -48,7 +48,7 @@ asdf_installation()
 
 python_installation()
 {
-    python -m virtualenv --python=python3.12 "${BASE}/.python"
+    python -m virtualenv "${BASE}/.python"
     "${BASE}"/.python/bin/pip install --upgrade pip
     "${BASE}"/.python/bin/python -m pip install -r requirements.txt
 }
