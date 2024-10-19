@@ -16,6 +16,15 @@ class TestRepo(unittest.TestCase):
 
     def test_prerequisites(self):
         self.args = Args()
-        self.args.target_repo = ""
-        self.assertRaises(RepoError, prerequisites(), args=self.args), "The --target_repo argument is not set."
+        assert prerequisites(args=self.args) == True, "The --target_repo argument is not set."
         
+        self.args.target_repo = ""
+        with self.assertRaises(RepoError):
+            prerequisites(args=self.args)
+
+        self.args.target_repo = None
+        with self.assertRaises(RepoError):
+            prerequisites(args=self.args)
+
+
+    

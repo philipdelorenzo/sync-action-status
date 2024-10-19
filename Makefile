@@ -14,6 +14,10 @@ install: ##@repo Installs needed prerequisites and software to develop in the SR
 	@.python/bin/pip install -r src/requirements.txt
 	@asdf reshim
 
+run-tests: ##@repo Run tests
+	$(info ********** Running Tests **********)
+	@bash test/run_tests.sh -u
+
 ############# Development Section #############
 help: ##@misc Show this help.
 	@echo $(MAKEFILE_LIST)
