@@ -15,9 +15,10 @@ APP="${DIR}"/../src
 run_unit_tests ()
 {
     echo "${GITHUB_ACTIONS}"
-    
+
     if [[ -n "${GITHUB_ACTIONS}" ]] && [[ "${GITHUB_ACTIONS}" == "true" ]]; then
         echo "Running Github Action Unit Tests"
+        pip install -r "${APP}"/requirements.txt
         python -m unittest discover ${APP}
     else
         echo "Running Local Unit Tests"
