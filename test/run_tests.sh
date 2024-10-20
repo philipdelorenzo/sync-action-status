@@ -14,7 +14,11 @@ APP="${DIR}"/../src
 
 run_unit_tests ()
 {
-    "${PY}"/bin/python -m unittest discover ${APP}
+    if [[ ! -z "${CI}"]]; then
+        "${PY}"/bin/python -m unittest discover ${APP}
+    else:
+        python -m unittest discover ${APP}
+    fi
 }
 
 ##### ----------------------------- #####
