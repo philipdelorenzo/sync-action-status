@@ -16,5 +16,5 @@ jobs:
     
       - name: Run Tests
         run: |
-          echo "Running unit tests..."
+          echo "Running all unit tests..."
           bash test/run_tests.sh -u
