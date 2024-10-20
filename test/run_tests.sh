@@ -14,10 +14,10 @@ APP="${DIR}"/../src
 
 run_unit_tests ()
 {
-    if [[ ! -z "${CI}" ]]; then
-        "${PY}"/bin/python -m unittest discover ${APP}
-    else
+    if [[ -n "${GITHUB_ACTION}" ]] && [[ "${GITHUB_ACTION}" == "true" ]]; then
         python -m unittest discover ${APP}
+    else
+        "${PY}"/bin/python -m unittest discover ${APP}
     fi
 }
 
