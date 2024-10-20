@@ -16,7 +16,7 @@ run_unit_tests ()
 {
     if [[ ! -z "${CI}"]]; then
         "${PY}"/bin/python -m unittest discover ${APP}
-    else:
+    else
         python -m unittest discover ${APP}
     fi
 }
