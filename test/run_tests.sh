@@ -14,9 +14,13 @@ APP="${DIR}"/../src
 
 run_unit_tests ()
 {
+    echo "${GITHUB_ACTION}"
+
     if [[ -n "${GITHUB_ACTION}" ]] && [[ "${GITHUB_ACTION}" == "true" ]]; then
+        echo "Running Github Action Unit Tests"
         python -m unittest discover ${APP}
     else
+        echo "Running Local Unit Tests"
         "${PY}"/bin/python -m unittest discover ${APP}
     fi
 }
