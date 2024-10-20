@@ -42,7 +42,7 @@ runs:
       run: |
         echo -e "\u001b[36mStarting Pip Installation\u001b[0m"
         echo "::group::Pip Installation"
-        pip install -r ${{ github.action_path }}/requirements.txt
+        pip install -r ${{ github.action_path }}/src/requirements.txt
         echo "::endgroup::"
         echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Pip Installation Complete"
       shell: bash
