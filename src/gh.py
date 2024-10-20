@@ -12,7 +12,7 @@ from github import Github
 from github import Auth
 
 from icecream import ic # We will use icecream to print out the job information
-from datetime import datetime, timezone, UTC
+from datetime import datetime, timezone
 
 BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
 WORKDIR = os.environ.get("WORKDIR") # Get the workflows directory
@@ -32,7 +32,6 @@ def get_repos(api: Github) -> list:
         repos.append(repo)
     
     return repos
-
 
 def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
     """This function will return the repository dispatch URL for the repository passed in as an argument.
@@ -191,7 +190,7 @@ def filter_job_list(current_running_job_list: list) -> list:
     Returns:
         list: The filtered list of jobs.
     """
-    current_time = datetime.now(UTC)
+    current_time = datetime.now(timezone.utc)
 
     # To locate the closet job to this current time, we need to evaluate the epoch time of the created time, and compare to now
     _locate_job = {} # This will create the empty dictionary to locate the job
