@@ -87,12 +87,12 @@ repo_name = args.target_repo.split("/")[1]  # Let's get the repo name from the r
 
 if is_org(github_actor=gh_actor_org):
     args.is_org = True
-    _api_data = f"/orgs/{args.target_repo}"
+    _api_data = f"orgs/{args.target_repo}"
     ic(f"GitHub Actor: {gh_actor_org} is an organization.") # debug
     ic(f"Args: {args}") # debug
 else:
     args.is_org = False
-    _api_data = f"/repos/{args.target_repo}"
+    _api_data = f"repos/{args.target_repo}"
     ic(f"GitHub Actor: {gh_actor_org} is not an organization.") # debug
     ic(f"Args: {args}") # debug
 

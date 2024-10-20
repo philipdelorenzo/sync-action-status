@@ -14,7 +14,7 @@ APP="${DIR}"/../src
 
 run_unit_tests ()
 {
-    python -m unittest discover ${APP}
+    "${PY}"/bin/python -m unittest discover ${APP}
 }
 
 ##### ----------------------------- #####

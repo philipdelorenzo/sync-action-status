@@ -1,6 +1,6 @@
 import unittest
 from helpers import Args # helpers are or testing only
-from checks import repo_owner_verification, prerequisites
+from checks import repo_owner_verification, prerequisites, is_org, check_gh_token
 from src.exceptions import GHTokenError, RepoError
 
 class TestGithubOwnerMixmatch(unittest.TestCase):
@@ -26,5 +26,13 @@ class TestRepo(unittest.TestCase):
         with self.assertRaises(RepoError):
             prerequisites(args=self.args)
 
-
+    def test_is_org(self):
+        self.github_actor = "philipdelorenzo"
+        assert is_org(github_actor=self.github_actor) == False, "The Github actor is NOT an organization."
     
+        self.github_actor = "google"
+        assert is_org(github_actor=self.github_actor) == True, "The Github actor is an organization."
+
+    def test_check_gh_token(self):
+        self.gh_token = "ghp_123"
+        assert check_gh_token(gh_token=self.gh_token) == None, "The GH_TOKEN environment variable is set."

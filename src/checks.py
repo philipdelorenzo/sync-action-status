@@ -20,7 +20,6 @@ def check_gh_token(gh_token: str) -> None:
     if not gh_token.startswith("ghp_"):
         raise GHTokenError(message="GH_TOKEN environment variable is not a valid GitHub token.")
 
-    pass
 
 def prerequisites(args: argparse.ArgumentParser.parse_args) -> bool:
     """This function checks to ensure that all prerequisites are met before running the script.
@@ -41,7 +40,7 @@ def prerequisites(args: argparse.ArgumentParser.parse_args) -> bool:
 
 def is_org(github_actor: str) -> bool:
     """This function will return True if the Github actor is an organization."""
-    if requests.get(f"https://github.com/org/{github_actor}").status_code == 200:
+    if requests.get(f"https://api.github.com/orgs/{github_actor}").status_code == 200:
         return True
     
     return False

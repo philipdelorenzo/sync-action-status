@@ -19,14 +19,14 @@ class GithubAPI:
             token: str,
             api_data: str
             ) -> None:
-        self.token = token
-        self.api_data = api_data # The API data to use for the Github API repos/{username}/{repo}/actions/runs
+        self.token: str = token
+        self.api_data: str = api_data # The API data to use for the Github API repos/{username}/{repo}/actions/runs
 
-        self.repo_actions_data = self.actions_runs
-        ic(f"Repo Actions Data(Type) --> {type(self.repo_actions_data)}")
+        self.repo_actions_url = self.actions_runs()
+        ic(f"Repo Actions Data(Type) --> {type(self.repo_actions_url)}")
 
     def actions_runs(self) -> str:
-        return f"https://api.github.com/repos/{self.api_data}/actions/runs"
+        return f"https://api.github.com/{self.api_data}/actions/runs"
 
 # using an access token
 def auth(gh_token: str) -> Auth.Token:

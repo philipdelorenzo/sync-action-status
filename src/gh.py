@@ -43,12 +43,7 @@ def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
     Returns:
         str: The repository dispatch URL for the repository passed in as an argument.
     """
-    if args.is_org:
-        url = f"https://github.com/org/{args.target_repo}"
-    else:
-        url = f"https://github.com/{args.target_repo}"
-
-    return url
+    return f"https://github.com/{args.target_repo}"
 
 
 def get_workflow_data(repo: str) -> list[dict]:
