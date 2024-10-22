@@ -14,10 +14,6 @@ from datetime import datetime, timezone
 
 BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
 WORKDIR = os.environ.get("WORKDIR") # Get the workflows directory
-config = json.load(open(os.path.join(BASE, "config.json"))) # Load the config file
-
-# Let's get the deployment workflows information from the config
-deployment_data = config["deployment_data"]
 
 def get_workflow_data(repo: str) -> list[dict]:
     """This function will return the deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments.
@@ -192,7 +188,7 @@ def filter_job_list(current_running_job_list: list) -> list:
     return current_running_job_list[job_index] # Return the job with the smallest time delta
 
 
-def follow_workflow_job(workflow_job_id: int, interval: str) -> None:
+def follow_workflow_job(repo: str, workflow_job_id: int, interval: str) -> None:
     """Follow the logs of the workflow job passed in as an argument.
 
     Args:
@@ -205,7 +201,7 @@ def follow_workflow_job(workflow_job_id: int, interval: str) -> None:
         "watch",
         str(workflow_job_id),
         "--repo",
-        deployment_data["url"],
+        repo,
         "--interval",
         interval,
         "--exit-status"
