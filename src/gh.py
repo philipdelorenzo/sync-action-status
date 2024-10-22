@@ -13,6 +13,7 @@ from github import Auth
 
 from icecream import ic # We will use icecream to print out the job information
 from datetime import datetime, timezone
+from shared import get_workflow_data, get_workflow_id
 
 BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
 WORKDIR = os.environ.get("WORKDIR") # Get the workflows directory
@@ -33,6 +34,7 @@ def get_repos(api: Github) -> list:
     
     return repos
 
+
 def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
     """This function will return the repository dispatch URL for the repository passed in as an argument.
 
@@ -43,59 +45,6 @@ def get_repository_dispatch(args: argparse.ArgumentParser.parse_args) -> str:
         str: The repository dispatch URL for the repository passed in as an argument.
     """
     return f"https://github.com/{args.target_repo}"
-
-
-def get_workflow_data(repo: str) -> list[dict]:
-    """This function will return the deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments.
-
-    Args:
-        repo (str): The repository to get the workflow data from.
-
-    Returns:
-        lists: The deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deploy
-
-        For example:
-        [
-            {
-                "name": "workflow-name",
-                "id": "workflow-id",
-                "path": "workflow-path"
-            },
-            ...
-        ]
-    """
-    # Let's get a JSON objects of the name, id of the workflows
-    _cmd = [
-            "gh",
-            "workflow",
-            "list",
-            "--repo",
-            repo,
-            '--json=name,id,path,state',
-        ]
-
-    return json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())
-
-
-def get_workflow_id(_name: str, repo: str) -> int:
-    """This function will return the id of the workflow passed in as an argument.
-    
-    Returns:
-        int: The id of the workflow passed in as an argument.
-    """
-    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
-
-    id = [i["id"] for i in workflow_data if i["name"] == _name][0] # This will return the id of the workflow, if the name passed in matches one of these
-    
-    if not id:
-        print(f"Workflow with name {_name} not found.")
-        sys.exit(5)
-
-    if not isinstance(id, int):
-        print(f"Workflow ID must be an integer. Got {id} instead.")
-        sys.exit(5)
-
-    return id
 
 
 def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:

@@ -8,6 +8,7 @@ from github import Github
 from github import Auth
 
 from icecream import ic # We will use icecream to print out the job information
+from shared import get_workflow_data
 #from datetime import datetime, timezone, UTC
 
 BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
@@ -43,36 +44,3 @@ def get_repos(api: Github) -> list:
         repos.append(repo)
     
     return repos
-
-
-def get_workflow_data(repo: str) -> list[dict]:
-    """This function will return the deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments.
-
-    Args:
-        repo (str): The repository to get the workflow data from.
-
-    Returns:
-        lists: The deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deploy
-
-        For example:
-        [
-            {
-                "name": "workflow-name",
-                "id": "workflow-id",
-                "path": "workflow-path"
-            },
-            ...
-        ]
-    """
-    # Let's get a JSON objects of the name, id of the workflows
-    _cmd = [
-            "gh",
-            "workflow",
-            "list",
-            "--repo",
-            repo,
-            '--json=name,id,path,state',
-        ]
-
-    return json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())
-

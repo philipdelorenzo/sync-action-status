@@ -2,10 +2,6 @@ name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
 author: "Philip De Lorenzo"
 inputs:
-  #is_org:  # Whether the repository is an organization
-  #  description: 'Whether the repository is an organization'
-  #  required: true
-  #  default: "false"
   gh_token:  # The GitHub token to use for access to the API
     description: 'Your GitHub token'
     required: true
