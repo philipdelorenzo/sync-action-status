@@ -8,7 +8,7 @@ from github import Github
 from github import Auth
 
 from icecream import ic # We will use icecream to print out the job information
-from shared import get_workflow_data
+from .shared import get_workflow_data
 #from datetime import datetime, timezone, UTC
 
 BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
