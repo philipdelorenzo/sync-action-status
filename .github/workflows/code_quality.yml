@@ -1,10 +1,10 @@
 name: Python Black Fomatting
+run-name: Black Formatting
 
 on: 
   push:
     branches:
       - "*"
-      - "!main"
       - "!master"
 
 jobs:
@@ -18,4 +18,4 @@ jobs:
         run: |
           echo "Running Black..."
           pip install black
-          black --check .
+          black . --check
