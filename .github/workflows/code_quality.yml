@@ -1,0 +1,23 @@
+name: Python Black Fomatting
+
+on: 
+  push:
+    branches:
+      - "*"
+      - "!main"
+      - "!master"
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+    
+      - name: Python Black
+        run: |
+          echo "Running Black..."
+          pip install black
+          black --check .

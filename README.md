@@ -1,6 +1,7 @@
 # sync-action-status
 
 [![Unit Tests](https://github.com/philipdelorenzo/sync-action-status/actions/workflows/run_tests.yml/badge.svg)](https://github.com/philipdelorenzo/sync-action-status/actions/workflows/run_tests.yml)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A GitHub Action to follow `repository_dispatch` runs in your local repo...
 
