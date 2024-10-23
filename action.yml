@@ -1,37 +1,86 @@
 name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
+author: "Philip De Lorenzo"
 inputs:
   gh_token:  # The GitHub token to use for access to the API
     description: 'Your GitHub token'
     required: true
     default: None
-
-#outputs:
-#  random-number:
-#    description: "Random number"
-#    value: ${{ steps.random-number-generator.outputs.random-number }}
+  current_repo:  # The repository to sync the status to
+    description: 'The current repository calling the action'
+    required: true
+    default: None
+  target_repo:  # The repository to sync the status to
+    description: 'The repository to sync the status to'
+    required: true
+    default: None
+  interval:  # The interval to check for the status
+    description: 'The interval to check for the status'
+    required: false
+    default: "30" # The is the interval to check for the status in seconds
+  event_type:  # The event type to use for the status
+    description: 'The event type to use for the status'
+    required: true
+    default: None
+  debug:
+    description: 'Run the workflow in debug mode'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
   steps:
-    - name: Set Greeting
-      run: echo "Hello $INPUT_WHO_TO_GREET."
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Action Prerequisites
+      run: |
+        echo -e "\u001b[36mStarting Pip Installation\u001b[0m"
+        echo "::group::Pip Installation"
+        pip install -r ${{ github.action_path }}/src/requirements.txt
+        echo "::endgroup::"
+        echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Pip Installation Complete"
       shell: bash
+
+    - id: rname
+      run: |
+        echo -e "\u001b[36mGetting Repository Name\u001b[0m"
+        echo "::group::Repository Name"
+        echo "repo_name=$(echo "${{ inputs.target_repo }}" | rev | cut -d'/' -f1 | rev)" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+        echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Complete"
+      shell: bash
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.target_repo }}
+        path: ${{ github.workspace }}/${{ inputs.target_repo }}
+        fetch-depth: 0 # Fetch all history for all tags and branches
+        token: ${{ inputs.gh_token }}  
+
+    - name: Sync Action Status
       env:
-        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+        GH_TOKEN: ${{ inputs.gh_token }}
+      run: |
+        echo -e "\u001b[36mSync Action Status\u001b[0m"
+        echo "::group::Sync Action Status"
+        export WORKDIR="${{ github.workspace }}/${{ inputs.target_repo }}"
+        if [[ "${{ inputs.is_org }}" == "true" ]]; then
+          if [[ "${{ inputs.debug }}" == "true" ]]; then
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}" --debug
+          else
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --is_org --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}"
+          fi
+        else
+          if [[ "${{ inputs.debug }}" == "true" ]]; then
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}" --debug
+          else
+            python ${{ github.action_path }}/sync-action-status.py --interval "${{ inputs.interval }}" --event_type "${{ inputs.event_type }}" --current_repo "${{ inputs.current_repo }}" --target_repo "${{ inputs.target_repo }}"
+          fi
+        fi
 
-    - name: Random Number Generator
-      id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+        echo -e "\u001b[32m\xE2\x9C\x94\u001b[0m Sync Action Status Complete"
       shell: bash
-
-    - name: Set GitHub Path
-      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-      shell: bash
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
-
-    - name: Run goodbye.sh
-      run: goodbye.sh
-      shell: bash
-

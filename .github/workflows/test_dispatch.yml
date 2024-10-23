@@ -2,22 +2,56 @@ name: Test Dispatch
 
 on: 
   workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Run the workflow in debug mode'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  EVENT_TYPE: test_run
+  TARGET_REPO_NAME: test-sync-action-status
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
+    - name: Dispatch Test Data
+      run: |
+          echo "Github Actor: ${{ github.actor }}"
+          echo "Current Github Repo: ${{ github.repository }}"
+          echo "Github Repository Owner: ${{ github.repository_owner }}"
+          echo "Target Repository Name: $TARGET_REPO_NAME"
+
+          echo "Dispatching event to ${{ github.repository_owner }}/$TARGET_REPO_NAME"
+          env | sort
+
+    - name: Set Target Dispatch Repository
+      id: target
+      run: |
+        echo "target=${{ github.repository_owner }}/$TARGET_REPO_NAME"
+        echo "target=${{ github.repository_owner }}/$TARGET_REPO_NAME" >> $GITHUB_OUTPUT
+
+    # We need to figure out of this is an org. or a user repository
     - name: Send a Dispatch to the Test Receiver
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        EVENT: test_run
-        ORG: philipdelorenzo
-        REPO: test-sync-action-status
+        ORG: ${{ github.repository_owner }}
       run: |
-        curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT}\"}" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
+        echo "${{ steps.target.outputs.target }}"
+        curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${{ steps.target.outputs.target }}/dispatches"
+
+    - uses: philipdelorenzo/sync-action-status@init
+      with:
+        gh_token: ${{ secrets.GH_TOKEN }}
+        event_type: ${EVENT_TYPE}
+        current_repo: ${{ github.repository }}
+        # You must use this action ONLY with repositories that you own
+        target_repo: "${{ steps.target.outputs.target }}"
+        debug: ${{ github.event.inputs.debug }}
