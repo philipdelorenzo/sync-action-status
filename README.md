@@ -27,7 +27,7 @@ To use this Action, there are multiple parts to setup within your Github Action.
 
 1. Security _(are there any reasons why you would want to keep the functionality of the action secret, this can help)_
 2. SRE can engage with Dev teams with minimal interuptions
-    - Let's face it, Development is tough, and developers are busy. Putting all of the Actions in a Repo to run from allows the SRE team to iterate, build, augment Actions without interupting developer's with constant PR requests and extra code bloat in their repo_(s)_.
+    - Let's face it, development is tough, and developers are busy. Putting all of the Actions in a Repo allows the SRE team to iterate, build, augment Actions without interupting developers with constant PRs and extra code bloat in their repo_(s)_.
 3. My personal favorite, it allows us to remain in Github - 
     - In some cases, there are needs for other services like CircleCI, Buildkite, etc. but if we can remain in Github, this is always a plus. It's less cost _(why pay for another service if you already have a service deployed that can do the same thing?)_, and less context switching - These days, Platform Engineers end up working tirelessly just gluing together the plethora of services utilized by their development teams.
 
@@ -40,7 +40,24 @@ In order to accomplish this, you will need to create a new repo that will house 
 
 ## Sync-Action-Status Install
 
-#### Target Repository
+#### Dispatch Repository (Dispatch)
+
+In running a `repository_dispatch`, essentially, you're running an action in another repo. In order to accomplish this, you will need to setup the receiver action, using an `event_type`:
+
+'''yaml
+on:
+  repository_dispatch:
+    types: [<your_event_name>]
+```
+
+In the dispatch action _(the action sending the request to the receiver)_, you can either set a variable and use it in the rest of the manifest _(I find it easier to change in one place, and have it propagated throughout)_ or just use the event_type wherever needed.
+
+'''yaml
+env:
+  EVENT_TYPE: <your_event_name>
+```
+
+#### Target Repository (Receiver)
 
 Add the following as a job step:
 
@@ -48,8 +65,8 @@ Add the following as a job step:
 - name: Set Target Dispatch Repository
     id: target
     run: |
-    echo "target=${{ github.repository_owner }}/<your-repository-dispatch-repo>"
-    echo "target=${{ github.repository_owner }}/<your-repository-dispatch-repo>" >> $GITHUB_OUTPUT
+      echo "target=${{ github.repository_owner }}/<your-repository-dispatch-repo>"
+      echo "target=${{ github.repository_owner }}/<your-repository-dispatch-repo>" >> $GITHUB_OUTPUT
 ```
 
 #### Sending the API Call
@@ -60,8 +77,10 @@ Add the following as a job step:
 # The target step sets the repo that you're calling that houses the Repository Dispatch Receiver
 - name: Send a Dispatch to the Test Receiver
   run: |
+    ### NOTE: The EVENT_TYPE is set in the above step ###
     curl -H "Content-Type: application/json" -H "Authorization: token ${{ secrets.GH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${{ steps.target.outputs.target }}/dispatches"
 ```
+See [Dispatch Repository (Dispatch)](#dispatch-repository-dispatch) above.
 
 #### Tail the Repository Dispatch in your Calling Repo
 
