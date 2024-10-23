@@ -14,8 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
     
+      - name: Python Setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.2
+s
       - name: Python Black
         run: |
           echo "Running Black..."
-          pip install black
-          black -t py312 --diff .
+          python -m pip install black
+          python -m black -t py312 --check --diff .
