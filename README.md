@@ -9,6 +9,8 @@ Github User, this Action will sync the Workflow Status of a `repository_dispatch
 
 Please see [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) if you'd like to read up on what a repository dispatch is, and what it does.
 
+Need some back story? See [back story](docs/backstory.md).
+
 ## How this works
 
 ```mermaid

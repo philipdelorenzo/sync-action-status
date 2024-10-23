@@ -16,14 +16,16 @@ def check_gh_token(gh_token: str) -> None:
     """
     if (not gh_token) or (gh_token == ""):
         raise GHTokenError(message="GH_TOKEN environment variable not set.")
-    
+
     if not gh_token.startswith("ghp_"):
-        raise GHTokenError(message="GH_TOKEN environment variable is not a valid GitHub token.")
+        raise GHTokenError(
+            message="GH_TOKEN environment variable is not a valid GitHub token."
+        )
 
 
 def prerequisites(args: argparse.ArgumentParser.parse_args) -> bool:
     """This function checks to ensure that all prerequisites are met before running the script.
-    
+
     Args:
         args (argparse.ArgumentParser.parse_args): The arguments passed in as an argument.
 
@@ -34,16 +36,20 @@ def prerequisites(args: argparse.ArgumentParser.parse_args) -> bool:
         bool: True if all prerequisites are met.
     """
     if (not args.target_repo) or (args.target_repo == ""):
-        raise RepoError("The --target_repo argument is required (this is the repository that houses the receiver action).")
+        raise RepoError(
+            "The --target_repo argument is required (this is the repository that houses the receiver action)."
+        )
 
     return True
+
 
 def is_org(github_actor: str) -> bool:
     """This function will return True if the Github actor is an organization."""
     if requests.get(f"https://api.github.com/orgs/{github_actor}").status_code == 200:
         return True
-    
+
     return False
+
 
 def repo_owner_verification(args: argparse.ArgumentParser.parse_args) -> None:
     """This function will verify that the owner of the repository is the same as the owner of the action."""
