@@ -7,13 +7,16 @@ import json
 import sys
 import yaml
 import time
-import subprocess # We will use subprocess to run the gh command to get the deployment pipelines
+import subprocess  # We will use subprocess to run the gh command to get the deployment pipelines
 
-from icecream import ic # We will use icecream to print out the job information
+from icecream import ic  # We will use icecream to print out the job information
 from datetime import datetime, timezone
 
-BASE = os.path.dirname(os.path.abspath(__file__)) # Get the base directory of the script
-WORKDIR = os.environ.get("WORKDIR") # Get the workflows directory
+BASE = os.path.dirname(
+    os.path.abspath(__file__)
+)  # Get the base directory of the script
+WORKDIR = os.environ.get("WORKDIR")  # Get the workflows directory
+
 
 def get_workflow_data(repo: str) -> list[dict]:
     """This function will return the deployment workflows for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments.
@@ -36,27 +39,31 @@ def get_workflow_data(repo: str) -> list[dict]:
     """
     # Let's get a JSON objects of the name, id of the workflows
     _cmd = [
-            "gh",
-            "workflow",
-            "list",
-            "--repo",
-            repo,
-            '--json=name,id,path,state',
-        ]
+        "gh",
+        "workflow",
+        "list",
+        "--repo",
+        repo,
+        "--json=name,id,path,state",
+    ]
 
     return json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())
 
 
 def get_workflow_id(_name: str, repo: str) -> int:
     """This function will return the id of the workflow passed in as an argument.
-    
+
     Returns:
         int: The id of the workflow passed in as an argument.
     """
-    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
+    workflow_data = get_workflow_data(
+        repo=repo
+    )  # Let's get a list of the workflows in the repos
 
-    id = [i["id"] for i in workflow_data if i["name"] == _name][0] # This will return the id of the workflow, if the name passed in matches one of these
-    
+    id = [i["id"] for i in workflow_data if i["name"] == _name][
+        0
+    ]  # This will return the id of the workflow, if the name passed in matches one of these
+
     if not id:
         print(f"Workflow with name {_name} not found.")
         sys.exit(5)
@@ -80,7 +87,9 @@ def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:
         dict[str, list[str]]: The event triggers for the workflows
     """
     event_triggers_for_workflows: dict = {}
-    workflow_data = get_workflow_data(repo=repo) # Let's get a list of the workflows in the repos
+    workflow_data = get_workflow_data(
+        repo=repo
+    )  # Let's get a list of the workflows in the repos
 
     ic(f"Worflow Data: {workflow_data}")
 
@@ -94,7 +103,7 @@ def get_event_type_list_for_workflows(repo: str) -> dict[str, list[str]]:
             _data = yaml.safe_load(file)
 
         ic(f"Workflow Data: {_data}")
-        
+
         if True in _data.keys():
             # This found the on: key in the workflow file
             if "repository_dispatch" in _data[True].keys():
@@ -127,18 +136,18 @@ def current_running_job_list(repo: str, _name: str) -> list[dict]:
             "--repo",
             repo,
             f"--status=in_progress",
-            "--json=databaseId,conclusion,createdAt,number,status,updatedAt,url,headBranch,headSha,name,displayTitle"
+            "--json=databaseId,conclusion,createdAt,number,status,updatedAt,url,headBranch,headSha,name,displayTitle",
         ]
 
         r = json.loads(subprocess.check_output(_cmd).decode("utf-8").strip())
-        
+
         if not r:
             time.sleep(5)
             count += 1
         else:
             break
 
-    return r # Return the current running job list, already loaded as a JSON object
+    return r  # Return the current running job list, already loaded as a JSON object
 
 
 def iso_to_epoch(iso_date):
@@ -163,7 +172,7 @@ def filter_job_list(current_running_job_list: list) -> list:
     current_time = datetime.now(timezone.utc)
 
     # To locate the closet job to this current time, we need to evaluate the epoch time of the created time, and compare to now
-    _locate_job = {} # This will create the empty dictionary to locate the job
+    _locate_job = {}  # This will create the empty dictionary to locate the job
     for job in current_running_job_list:
         ic(f"JOB: {job}")
         created_at = job["createdAt"]
@@ -171,7 +180,7 @@ def filter_job_list(current_running_job_list: list) -> list:
 
         now = current_time.strftime("%Y%m%dT%H%M%SZ")
         now_epoch = iso_to_epoch(now)
-        
+
         # Let's convert the created time to a datetime object
         time_delta = now_epoch - created_epoch
         _locate_job.update({time_delta: current_running_job_list.index(job)})
@@ -180,12 +189,18 @@ def filter_job_list(current_running_job_list: list) -> list:
     deltas = list(_locate_job.keys())
 
     if len(deltas) > 1:
-        smallest_delta = __builtins__.min(deltas) # Get the smallest time delta = the closest job to the current time
+        smallest_delta = __builtins__.min(
+            deltas
+        )  # Get the smallest time delta = the closest job to the current time
     else:
         smallest_delta = deltas[0]
-    job_index = _locate_job[smallest_delta] # Get the index of the job with the smallest time delta
+    job_index = _locate_job[
+        smallest_delta
+    ]  # Get the index of the job with the smallest time delta
 
-    return current_running_job_list[job_index] # Return the job with the smallest time delta
+    return current_running_job_list[
+        job_index
+    ]  # Return the job with the smallest time delta
 
 
 def follow_workflow_job(repo: str, workflow_job_id: int, interval: str) -> None:
@@ -204,10 +219,12 @@ def follow_workflow_job(repo: str, workflow_job_id: int, interval: str) -> None:
         repo,
         "--interval",
         interval,
-        "--exit-status"
+        "--exit-status",
     ]
 
-    result = subprocess.run(_cmd, capture_output=True) # Run the command to follow the logs of the workflow job
+    result = subprocess.run(
+        _cmd, capture_output=True
+    )  # Run the command to follow the logs of the workflow job
     if result.returncode != 0:
         print(f"Error following the logs of the workflow job {workflow_job_id}.")
         sys.exit(5)

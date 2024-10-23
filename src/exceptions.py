@@ -7,6 +7,7 @@ class GHTokenError(Exception):
         # Now for your custom code...
         self.errors = errors
 
+
 class RepoError(Exception):
     def __init__(self, message, errors={}):
         # Call the base class constructor with the parameters it needs
@@ -14,6 +15,7 @@ class RepoError(Exception):
 
         # Now for your custom code...
         self.errors = errors
+
 
 class OrgError(Exception):
     def __init__(self, message, errors={}):
@@ -23,6 +25,7 @@ class OrgError(Exception):
         # Now for your custom code...
         self.errors = errors
 
+
 class GithubActorError(Exception):
     def __init__(self, message, errors={}):
         # Call the base class constructor
@@ -30,6 +33,7 @@ class GithubActorError(Exception):
 
         # Now for your custom code...
         self.errors = errors
+
 
 class RepoOwnershipMixmatch(Exception):
     def __init__(self, message, errors={}):

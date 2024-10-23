@@ -1,6 +1,7 @@
 # sync-action-status
 
 [![Unit Tests](https://github.com/philipdelorenzo/sync-action-status/actions/workflows/run_tests.yml/badge.svg)](https://github.com/philipdelorenzo/sync-action-status/actions/workflows/run_tests.yml)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A GitHub Action to follow `repository_dispatch` runs in your local repo...
 
@@ -8,6 +9,8 @@ This Github Action currently only works with repos that you own. If you are call
 Github User, this Action will sync the Workflow Status of a `repository_dispatch`.
 
 Please see [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) if you'd like to read up on what a repository dispatch is, and what it does.
+
+Need some back story? See [back story](docs/backstory.md).
 
 ## How this works
 
