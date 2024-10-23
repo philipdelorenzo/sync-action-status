@@ -22,5 +22,5 @@ jobs:
       - name: Python Black
         run: |
           echo "Running Black..."
-          python -m pip install black
+          python -m pip install black==23.9.1
           python -m black -t py312 --check --diff .
