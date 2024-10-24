@@ -1,6 +1,10 @@
 name: 'Sync Action Status'
 description: 'Sync a GitHub Action status from a repository_dispatch event'
 author: "Philip De Lorenzo"
+branding:
+  icon: "check-circle"
+  color: "green"
+  
 inputs:
   gh_token:  # The GitHub token to use for access to the API
     description: 'Your GitHub token'
