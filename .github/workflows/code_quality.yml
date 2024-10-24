@@ -25,6 +25,17 @@ jobs:
           python -m pip install black==23.9.1
           python -m black -t py312 --check --diff .
 
+  isort:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python Setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.2
+
       - name: Python Isort
         run: |
           echo "Running Isort..."
