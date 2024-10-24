@@ -11,7 +11,8 @@ on:
       branch:
         description: 'Branch to run the workflow on'
         required: false
-        type: string
+        type: choice
+        options: ['master', 'latest']
         default: 'master'
 
 env:
@@ -52,7 +53,7 @@ jobs:
         echo "${{ steps.target.outputs.target }}"
         curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" -d "{\"event_type\": \"${EVENT_TYPE}\"}" "https://api.github.com/repos/${{ steps.target.outputs.target }}/dispatches"
 
-    - uses: philipdelorenzo/sync-action-status@master
+    - uses: philipdelorenzo/sync-action-status@${{ inputs.branch }}
       with:
         gh_token: ${{ secrets.GH_TOKEN }}
         event_type: ${EVENT_TYPE}
