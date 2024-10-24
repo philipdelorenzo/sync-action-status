@@ -2,7 +2,7 @@
 # All rights reserved.
 
 # This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. 
+# LICENSE file in the root directory of this source tree.
 import unittest
 
 from checks import check_gh_token, is_org, prerequisites, repo_owner_verification
