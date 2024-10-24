@@ -3,6 +3,7 @@
 [![Unit Tests](https://github.com/philipdelorenzo/sync-action-status/actions/workflows/run_tests.yml/badge.svg)](https://github.com/philipdelorenzo/sync-action-status/actions/workflows/run_tests.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![https://img.shields.io/badge/isort-checked-yellow](https://img.shields.io/badge/isort-checked-yellow)
+![GitHub License](https://img.shields.io/github/license/philipdelorenzo/sync-action-status)
 
 A GitHub Action to follow `repository_dispatch` runs in your local repo...
 
