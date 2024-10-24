@@ -9,8 +9,8 @@ default: help
 
 install: ##@repo Installs needed prerequisites and software to develop in the SRE space
 	$(info ********** Installing SRE Repo Prerequisites **********)
-	@bash install.sh -a
-	@bash install.sh -p
+	@bash scripts/install.sh -a
+	@bash scripts/install.sh -p
 	@.python/bin/pip install -r src/requirements.txt
 	@asdf reshim
 
