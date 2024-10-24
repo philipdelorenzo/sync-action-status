@@ -24,3 +24,7 @@ jobs:
           echo "Running Black..."
           python -m pip install black==23.9.1
           python -m black -t py312 --check --diff .
+
+      - name: Sync Action Status (Ref)
+        run: |
+           echo "Tag name from github.ref_name: ${{  github.ref_name }}"
