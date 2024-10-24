@@ -8,6 +8,11 @@ on:
         required: false
         type: boolean
         default: false
+      branch:
+        description: 'Branch to run the workflow on'
+        required: false
+        type: string
+        default: 'master'
 
 env:
   EVENT_TYPE: test_run
