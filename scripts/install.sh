@@ -3,6 +3,7 @@
 set -eo pipefail
 
 BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MAIN="${BASE}/.."
 _GROUP=$(groups | awk -F' ' '{print $1}')
 PYTHON=$(command -v python)
 
@@ -27,7 +28,7 @@ plugins()
                 echo "[INFO] - Plugin '${plugin}' is installed already..."
             fi
         fi
-    done < "${BASE}/.tool-versions"
+    done < "${MAIN}/.tool-versions"
 
     echo "[INFO] - Running asdf plugin installations..."
     asdf install
@@ -48,9 +49,9 @@ asdf_installation()
 
 python_installation()
 {
-    python -m virtualenv "${BASE}/.python"
-    "${BASE}"/.python/bin/pip install --upgrade pip
-    "${BASE}"/.python/bin/python -m pip install -r requirements.txt
+    python -m virtualenv "${MAIN}/.python"
+    "${MAIN}"/.python/bin/pip install --upgrade pip
+    "${MAIN}"/.python/bin/python -m pip install -r requirements.txt
 }
 
 completed()

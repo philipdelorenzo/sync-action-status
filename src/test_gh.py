@@ -1,8 +1,9 @@
 import unittest
+
 import requests
 
-from helpers import Args  # helpers are or testing only
 from gh import get_repository_dispatch
+from helpers import Args  # helpers are or testing only
 
 
 class TestRepoDispatch(unittest.TestCase):

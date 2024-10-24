@@ -14,6 +14,11 @@ install: ##@repo Installs needed prerequisites and software to develop in the SR
 	@.python/bin/pip install -r src/requirements.txt
 	@asdf reshim
 
+format: ##@repo Format code
+	$(info ********** Formatting Code **********)
+	@.python/bin/python -m black . --exclude=\.python
+	@.python/bin/python -m isort --skip .python .
+
 run-tests: ##@repo Run tests
 	$(info ********** Running Tests **********)
 	@bash test/run_tests.sh -u

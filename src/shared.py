@@ -2,15 +2,15 @@
 
 # Author: @philipdelorenzo-manscaped<phil.delorenzo@manscaped.com>
 """
-import os
 import json
-import sys
-import yaml
-import time
+import os
 import subprocess  # We will use subprocess to run the gh command to get the deployment pipelines
-
-from icecream import ic  # We will use icecream to print out the job information
+import sys
+import time
 from datetime import datetime, timezone
+
+import yaml
+from icecream import ic  # We will use icecream to print out the job information
 
 BASE = os.path.dirname(
     os.path.abspath(__file__)
