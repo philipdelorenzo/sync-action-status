@@ -1,3 +1,8 @@
+# Copyright (c) 2024, Philip De Lorenzo
+# All rights reserved.
+
+# This source code is licensed under the BSD-style license found in the
+# LICENSE file in the root directory of this source tree. 
 import json
 import os
 import subprocess  # We will use subprocess to run the gh command to get the deployment pipelines

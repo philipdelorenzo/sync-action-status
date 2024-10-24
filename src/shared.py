@@ -1,3 +1,9 @@
+# Copyright (c) 2024, Philip De Lorenzo
+# All rights reserved.
+
+# This source code is licensed under the BSD-style license found in the
+# LICENSE file in the root directory of this source tree. 
+
 """This python script will return the deployment pipelines, and ids for the SRE Deployments Repo -- @manscaped-dev/manscaped-sre-deployments
 
 # Author: @philipdelorenzo-manscaped<phil.delorenzo@manscaped.com>
