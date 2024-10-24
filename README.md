@@ -49,7 +49,7 @@ In order to accomplish this, you will need to create a new repo that will house 
 
 In running a `repository_dispatch`, essentially, you're running an action in another repo. In order to accomplish this, you will need to setup the receiver action, using an `event_type`:
 
-'''yaml
+```yaml
 on:
   repository_dispatch:
     types: [<your_event_name>]
@@ -57,7 +57,7 @@ on:
 
 In the dispatch action _(the action sending the request to the receiver)_, you can either set a variable and use it in the rest of the manifest _(I find it easier to change in one place, and have it propagated throughout)_ or just use the event_type wherever needed.
 
-'''yaml
+```yaml
 env:
   EVENT_TYPE: <your_event_name>
 ```
