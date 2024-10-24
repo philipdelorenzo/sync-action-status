@@ -7,10 +7,10 @@ import time
 from datetime import datetime, timezone
 
 import yaml
+
 # Authentication is defined via github.Auth
 from github import Auth, Github
-from icecream import \
-    ic  # We will use icecream to print out the job information
+from icecream import ic  # We will use icecream to print out the job information
 
 from src.shared import get_workflow_data, get_workflow_id
 

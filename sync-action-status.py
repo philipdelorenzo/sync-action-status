@@ -2,15 +2,20 @@ import argparse
 import os
 import sys
 
-from icecream import \
-    ic  # We will use icecream to print out the job information
+from icecream import ic  # We will use icecream to print out the job information
 
-from src.checks import (check_gh_token, is_org, prerequisites,
-                        repo_owner_verification)
+from src.checks import check_gh_token, is_org, prerequisites, repo_owner_verification
 from src.exceptions import RepoOwnershipMixmatch
-from src.gh import (auth, current_running_job_list, filter_job_list,
-                    follow_workflow_job, get_event_type_list_for_workflows,
-                    get_repository_dispatch, get_workflow_id, github)
+from src.gh import (
+    auth,
+    current_running_job_list,
+    filter_job_list,
+    follow_workflow_job,
+    get_event_type_list_for_workflows,
+    get_repository_dispatch,
+    get_workflow_id,
+    github,
+)
 from src.gh_api import GithubAPI
 
 BASE = os.path.dirname(

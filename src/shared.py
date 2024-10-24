@@ -10,8 +10,7 @@ import time
 from datetime import datetime, timezone
 
 import yaml
-from icecream import \
-    ic  # We will use icecream to print out the job information
+from icecream import ic  # We will use icecream to print out the job information
 
 BASE = os.path.dirname(
     os.path.abspath(__file__)

@@ -4,8 +4,7 @@ import subprocess  # We will use subprocess to run the gh command to get the dep
 
 # Authentication is defined via github.Auth
 from github import Auth, Github
-from icecream import \
-    ic  # We will use icecream to print out the job information
+from icecream import ic  # We will use icecream to print out the job information
 
 from src.shared import get_workflow_data
 
