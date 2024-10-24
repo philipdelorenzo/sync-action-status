@@ -1,9 +1,11 @@
 import unittest
-import requests
 
-from icecream import ic  # We will use icecream to print out the job information
-from helpers import Args  # helpers are or testing only
+import requests
+from icecream import \
+    ic  # We will use icecream to print out the job information
+
 from gh_api import GithubAPI
+from helpers import Args  # helpers are or testing only
 
 
 class TestAPI(unittest.TestCase):

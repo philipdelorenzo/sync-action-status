@@ -1,6 +1,8 @@
 import unittest
+
+from checks import (check_gh_token, is_org, prerequisites,
+                    repo_owner_verification)
 from helpers import Args  # helpers are or testing only
-from checks import repo_owner_verification, prerequisites, is_org, check_gh_token
 from src.exceptions import GHTokenError, RepoError
 
 

@@ -1,18 +1,17 @@
-import os
-import sys
-import json
-import yaml
-import time
 import argparse
+import json
+import os
 import subprocess  # We will use subprocess to run the gh command to get the deployment pipelines
-
-from github import Github
-
-# Authentication is defined via github.Auth
-from github import Auth
-
-from icecream import ic  # We will use icecream to print out the job information
+import sys
+import time
 from datetime import datetime, timezone
+
+import yaml
+# Authentication is defined via github.Auth
+from github import Auth, Github
+from icecream import \
+    ic  # We will use icecream to print out the job information
+
 from src.shared import get_workflow_data, get_workflow_id
 
 BASE = os.path.dirname(

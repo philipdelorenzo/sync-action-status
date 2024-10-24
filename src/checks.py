@@ -1,6 +1,7 @@
 # Author: Philip De lorenzo <philip.delorenzo@gmail.com>
-import requests
 import argparse
+
+import requests
 
 from src.exceptions import GHTokenError, RepoError
 
