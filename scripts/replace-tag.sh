@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # We want to make some change to the code, but keep the same tag for the version
-RELEASE_TAG="rc-beta"
+RELEASE_TAG="v0.1.0"
 git tag --delete "${RELEASE_TAG}"
 git push --delete origin "${RELEASE_TAG}"
 
