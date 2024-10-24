@@ -1,5 +1,5 @@
-name: Python Black Fomatting
-run-name: Black Formatting
+name: Python Black Fomatting\Isort
+run-name: Black Formatting\Isort
 
 on: 
   push:
